@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
 
 
-
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpenDesktop, setIsServicesOpenDesktop] = useState(false);
