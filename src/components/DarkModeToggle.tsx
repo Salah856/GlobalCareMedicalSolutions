@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { Button } from './ui/button'
 export function DarkModeToggle() {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true); 
+  
   useEffect(() => {
     const isDarkMode = localStorage.getItem('darkMode') === 'true'
     setIsDark(isDarkMode)
