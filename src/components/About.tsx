@@ -28,6 +28,20 @@ export function About() {
               Why Choose GCMS?
             </h2>
             
+            {/* Company introduction */}
+            <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg">
+              <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-3">
+                About Global Care Medical Solutions
+              </h3>
+              <p className="text-green-700 dark:text-green-200 mb-4">
+                At Global Care Medical Solutions we are committed to provide accurate and effective medical billing services.
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-green-700 dark:text-green-200">
+                <li>Our highly trained staff is an extension to your office helping you focus on providing the quality care to your patients</li>
+                <li>We dedicate our team to increasing your revenue and handling patients concerns with utmost efficiency</li>
+              </ul>
+            </div>
+            
             {/* Problem statements */}
             <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg">
               <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-3">
