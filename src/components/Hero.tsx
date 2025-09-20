@@ -7,7 +7,9 @@ export function Hero() {
           <div className="space-y-8">
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
               Global Care Medical Solutions
-              <span className="block text-blue-600 dark:text-blue-400">Medical Billing</span>
+              <span className="block text-blue-600 dark:text-blue-400">
+                Your Prescription for Medical Growth 
+              </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
               Streamline your healthcare revenue cycle with our comprehensive medical billing services. 

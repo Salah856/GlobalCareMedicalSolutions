@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from './ui/button';
+import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
+
+
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,13 +63,14 @@ export function Header() {
   return (
     <header className={`bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-22">
           {/* Logo */}
           <div className="flex-shrink-0">
             <img 
-              src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
-              alt="The Spark" 
-              className="h-10 w-auto"
+              // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
+              src={GCMS_Logo}
+              alt="GCMS Logo" 
+              className="h-18 w-auto"
             />
           </div>
 
