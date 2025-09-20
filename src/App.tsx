@@ -16,8 +16,8 @@ import { ContactUs } from './pages/ContactUs';
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
-      <DarkModeToggle />
-      <Header />
+      {/* <DarkModeToggle /> */}
+      {/* <Header /> */}
       <main>
         <Hero />
         <Services />
