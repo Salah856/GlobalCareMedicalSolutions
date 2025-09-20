@@ -39,9 +39,9 @@ function App() {
           <Route path="/specialities" element={<Specialities />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/services/medical-billing" element={<MedicalBillingService />} />
-          <Route path="/services/llc-registration" element={<LLCRegistration />} />
-          <Route path="/services/credentialling" element={<CredentialingEnrollment />} />
+          <Route path="/medical-billing" element={<MedicalBillingService />} />
+          <Route path="/llc-registration" element={<LLCRegistration />} />
+          <Route path="/credentialling" element={<CredentialingEnrollment />} />
         </Routes>
         <Footer />
       </div>

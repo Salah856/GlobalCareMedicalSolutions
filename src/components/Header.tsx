@@ -12,9 +12,9 @@ export function Header() {
     { name: 'About Us', href: '/about-us' },
     { name: 'Why Choose Us', href: '/why-choose-us' },
     { name: 'Services', href: '/services', subItems: [
-      { name: 'Medical Billing Service', href: '/services/medical-billing' },
-      { name: 'LLC Registration', href: '/services/llc-registration' },
-      { name: 'Credentialling and Enrolment', href: '/services/credentialling' },
+      { name: 'Medical Billing Service', href: '/medical-billing' },
+      { name: 'LLC Registration', href: '/llc-registration' },
+      { name: 'Credentialling and Enrolment', href: '/credentialling' },
       // { name: 'AR Management Service', href: '/services/ar-management' },
       // { name: 'Customized Reporting', href: '/services/customized-reporting' },
       // { name: 'Eligibility and Verification', href: '/services/eligibility' },
