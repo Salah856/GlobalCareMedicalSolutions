@@ -31,75 +31,25 @@ const HomePage = () => {
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about-us" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <About />
-            <Footer />
-          </div>
-        } />
-        <Route path="/why-choose-us" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <WhyChooseUs />
-            <Footer />
-          </div>
-        } />
-        <Route path="/specialities" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <Specialities />
-            <Footer />
-          </div>
-        } />
-        <Route path="/blog" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <Blog />
-            <Footer />
-          </div>
-        } />
-        <Route path="/contact-us" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <ContactUs />
-            <Footer />
-          </div>
-        } />
-        <Route path="/services/medical-billing" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <MedicalBillingService />
-            <Footer />
-          </div>
-        } />
-        <Route path="/services/llc-registration" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <LLCRegistration />
-            <Footer />
-          </div>
-        } />
-        <Route path="/services/credentialling" element={
-          <div className="min-h-screen bg-white dark:bg-slate-900">
-            <DarkModeToggle />
-            <Header />
-            <CredentialingEnrollment />
-            <Footer />
-          </div>
-        } />
-      </Routes>
+      <div className="min-h-screen bg-white dark:bg-slate-900">
+        <DarkModeToggle />
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/why-choose-us" element={<WhyChooseUs />} />
+          <Route path="/specialities" element={<Specialities />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/services/medical-billing" element={<MedicalBillingService />} />
+          <Route path="/services/llc-registration" element={<LLCRegistration />} />
+          <Route path="/services/credentialling" element={<CredentialingEnrollment />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   )
 }
 
-export default App;
+export default App; 
+

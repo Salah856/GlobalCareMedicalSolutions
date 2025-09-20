@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react'
-import { Button } from './ui/button'
+import { useState } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import { Button } from './ui/button';
+
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
