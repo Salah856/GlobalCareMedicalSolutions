@@ -11,10 +11,10 @@ export function Hero() {
                 Your Prescription for Seamless Growth 
               </span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+            {/* <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
               Streamline your healthcare revenue cycle with our comprehensive medical billing services. 
               We help healthcare providers maximize their revenue while reducing administrative burden.
-            </p>
+            </p> */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                 Get Started
