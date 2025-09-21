@@ -8,10 +8,13 @@ import { DarkModeToggle } from './components/DarkModeToggle';
 import { MedicalBillingService } from './pages/MedicalBillingService';
 import { LLCRegistration } from './pages/LLCRegistrationService';
 import { CredentialingEnrollment } from './pages/CredentialingEnrollmentService';
+import { RemoteEmployeeServices } from './pages/RemoteEmployeeServices';
+import { EligibilityVerification } from './pages/EligibilityVerificationService';
 import { WhyChooseUs } from './pages/WhyChooseUs';
 import { Specialities } from './pages/Specialities';
 import { Blog } from './pages/Blog';
 import { ContactUs } from './pages/ContactUs';
+
 
 const HomePage = () => {
   return (
@@ -42,6 +45,8 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/medical-billing" element={<MedicalBillingService />} />
           <Route path="/llc-registration" element={<LLCRegistration />} />
+          <Route path="/remote-employee-service" element={<RemoteEmployeeServices />} />
+          <Route path="/eligibility-verification" element={<EligibilityVerification />} />
           <Route path="/credentialling" element={<CredentialingEnrollment />} />
         </Routes>
         <Footer />

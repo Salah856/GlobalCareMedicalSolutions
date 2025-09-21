@@ -12,18 +12,18 @@ export function CredentialingEnrollment() {
             Credentialing & Enrollment Services
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Streamlined provider credentialing and insurance enrollment to get you practicing faster and maximize reimbursements.
+            We take care of your enrollments and insurance credentialing services for a very competitive rate.
           </p>
         </div>
 
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div>
-            <img 
+            {/* <img 
               src="https://thespark.pro/wp-content/uploads/2024/09/credentialling.jpg" 
               alt="Credentialing and Enrollment"
               className="rounded-lg shadow-lg w-full h-auto"
-            />
+            /> */}
           </div>
           <div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
@@ -61,8 +61,7 @@ export function CredentialingEnrollment() {
           </div>
         </div>
 
-        {/* Insurance Networks Section */}
-        <div className="mb-16">
+        {/* <div className="mb-16">
           <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">
             Major Insurance Networks We Handle
           </h2>
@@ -75,7 +74,8 @@ export function CredentialingEnrollment() {
               </Card>
             ))}
           </div>
-        </div>
+        </div> */}
+
       </div>
     </div>
   )
