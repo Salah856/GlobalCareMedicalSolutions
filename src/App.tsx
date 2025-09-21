@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
+import { InteractiveFallingTags } from './components/FallingTags'; 
 import { About } from './components/About';
 import { Footer } from './components/Footer';
 import { DarkModeToggle } from './components/DarkModeToggle';
@@ -22,6 +23,7 @@ const HomePage = () => {
       <main>
         {/* <DarkModeToggle /> */}
         <Hero />
+        <InteractiveFallingTags />
         <Services />
         <About />
       </main>

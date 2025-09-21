@@ -1,0 +1,228 @@
+import React, { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+
+export function InteractiveFallingTags() {
+  const containerRef = useRef(null);
+  const [draggedElement, setDraggedElement] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [touchCounts, setTouchCounts] = useState({});
+  const [staticElements, setStaticElements] = useState(new Set());
+
+  const tags = [
+    { id: 1, text: "Internal Medicine", color: "#8B0000" },
+    { id: 2, text: "Oncology", color: "#6A5ACD" },
+    { id: 3, text: "Gastroenterology", color: "#228B22" },
+    { id: 4, text: "Nurse Practitioner", color: "#1E90FF" },
+    { id: 5, text: "Psychiatrists", color: "#FF1493" },
+    { id: 6, text: "Plastic Surgery", color: "#FFD700" },
+    { id: 7, text: "Rehabilitation", color: "#DC143C" },
+    { id: 8, text: "Urology", color: "#FF8C00" },
+    { id: 9, text: "Family Medicine", color: "#2F4F4F" }
+  ];
+
+  useEffect(() => {
+    if (!isDragging) {
+      initAnimations();
+    }
+  }, [isDragging]);
+
+  const initAnimations = () => {
+    const elements = containerRef.current.querySelectorAll(".tag:not(.dragging):not(.static)");
+    
+    elements.forEach((el, i) => {
+      // Skip if element is static
+      if (staticElements.has(el.dataset.id)) return;
+      
+      // Reset any existing animations
+      gsap.killTweensOf(el);
+      
+      // Set initial random position
+      gsap.set(el, {
+        x: Math.random() * (window.innerWidth - 150),
+        y: Math.random() * 200,
+        rotation: Math.random() * 30 - 15
+      });
+
+      // Create falling animation with bounce
+      gsap.to(el, {
+        y: window.innerHeight - 150,
+        rotation: "+=" + (Math.random() * 60 - 30),
+        duration: 3 + Math.random() * 2,
+        ease: "bounce.out",
+        repeat: -1,
+        yoyo: true,
+        delay: i * 0.2
+      });
+
+      // Add horizontal drift
+      gsap.to(el, {
+        x: "+=" + (Math.random() * 100 - 50),
+        duration: 6 + Math.random() * 3,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true
+      });
+    });
+  };
+
+  const handleTouchStart = (e, id) => {
+    setIsDragging(true);
+    const element = e.currentTarget;
+    setDraggedElement(element);
+    
+    // Kill any existing animations on this element
+    gsap.killTweensOf(element);
+    
+    // Add dragging class for styling
+    element.classList.add("dragging");
+    
+    // Store initial positions
+    const rect = element.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+    
+    element.dataset.offsetX = offsetX;
+    element.dataset.offsetY = offsetY;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || !draggedElement) return;
+    
+    const offsetX = parseFloat(draggedElement.dataset.offsetX);
+    const offsetY = parseFloat(draggedElement.dataset.offsetY);
+    
+    // Update element position to follow pointer
+    gsap.set(draggedElement, {
+      x: e.clientX - offsetX - draggedElement.parentElement.getBoundingClientRect().left,
+      y: e.clientY - offsetY - draggedElement.parentElement.getBoundingClientRect().top,
+      rotation: gsap.getProperty(draggedElement, "rotation")
+    });
+  };
+
+  const handleTouchEnd = () => {
+    if (!draggedElement) return;
+    
+    setIsDragging(false);
+    
+    // Remove dragging class
+    draggedElement.classList.remove("dragging");
+    
+    // Get element ID and update touch count
+    const elementId = draggedElement.dataset.id;
+    const currentCount = touchCounts[elementId] || 0;
+    const newCount = currentCount + 1;
+    
+    setTouchCounts(prev => ({
+      ...prev,
+      [elementId]: newCount
+    }));
+    
+    // If touched 3 times, make it static
+    if (newCount >= 3) {
+      draggedElement.classList.add("static");
+      setStaticElements(prev => new Set([...prev, elementId]));
+      
+      // Make it fall to the ground and stay there
+      gsap.to(draggedElement, {
+        y: window.innerHeight - 150,
+        rotation: 0,
+        duration: 1.5,
+        ease: "bounce.out"
+      });
+    } else {
+      // Spring up then fall
+      gsap.to(draggedElement, {
+        y: Math.random() * 200, // Spring up to a random height
+        rotation: "+=" + (Math.random() * 60 - 30),
+        duration: 0.5,
+        ease: "power1.out",
+        onComplete: () => {
+          // Then fall down
+          gsap.to(draggedElement, {
+            y: window.innerHeight - 150,
+            rotation: "+=" + (Math.random() * 60 - 30),
+            duration: 1.5,
+            ease: "bounce.out",
+            onComplete: () => {
+              // After falling, resume normal animation if not static
+              if (!staticElements.has(elementId)) {
+                initAnimations();
+              }
+            }
+          });
+        }
+      });
+    }
+    
+    setDraggedElement(null);
+  };
+
+  // Add event listeners for mouse actions
+  useEffect(() => {
+    const handleMouseUp = () => {
+      if (isDragging) {
+        handleTouchEnd();
+      }
+    };
+
+    const handleMouseMove = (e) => {
+      if (isDragging) {
+        handleTouchMove(e);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, draggedElement, touchCounts, staticElements]);
+
+  return (
+    <div 
+      className="relative w-full h-screen bg-blue-900 overflow-hidden"
+      onMouseMove={handleTouchMove}
+      onMouseUp={handleTouchEnd}
+    >
+      <div className="absolute top-0 left-0 w-full p-6 text-center z-10">
+        <h1 className="text-3xl font-bold text-white mb-2">Medical Specialties</h1>
+        <p className="text-white opacity-80">Touch tags to make them spring up! After 3 touches, they'll stay on the ground.</p>
+      </div>
+      
+      <div ref={containerRef} className="absolute w-full h-full">
+        {tags.map((tag) => (
+          <div
+            key={tag.id}
+            data-id={tag.id}
+            className="tag absolute px-4 py-2 rounded-full text-white font-medium shadow-lg cursor-pointer select-none"
+            style={{ 
+              backgroundColor: tag.color,
+              userSelect: 'none',
+              touchAction: 'none'
+            }}
+            onMouseDown={(e) => handleTouchStart(e, tag.id)}
+          >
+            {tag.text}
+          </div>
+        ))}
+      </div>
+      
+      {/* Inline styles for the dragging effect */}
+      <style>
+        {`
+          .tag.dragging {
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+          }
+          .tag.static {
+            cursor: default;
+            opacity: 0.8;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+

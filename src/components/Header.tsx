@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, ChevronUp, Moon, Sun } from 'lucide-react';
 import { Button } from './ui/button';
 import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
+import GCMS_Logo_without_bg from "../assets/GCMS_Logo_without_Background.png"; 
+
+
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,7 +89,7 @@ export function Header() {
         <div className="flex justify-between items-center h-22">
           <div className="flex-shrink-0">
             <img 
-              src={GCMS_Logo}
+              src={GCMS_Logo_without_bg}
               alt="GCMS Logo" 
               className="h-18 w-auto"
             />
@@ -173,7 +176,7 @@ export function Header() {
           <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-slate-900">
             <div className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700">
               <img 
-                src={GCMS_Logo}
+                src={GCMS_Logo_without_bg}
                 alt="GCMS Logo" 
                 className="h-18 w-auto"
               />
