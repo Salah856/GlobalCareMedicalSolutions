@@ -10,7 +10,6 @@ export function Header() {
   const [isServicesOpenMobile, setIsServicesOpenMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -28,9 +27,10 @@ export function Header() {
       href: '/services', 
       subItems: [
         { name: 'Medical Billing Service', href: '/medical-billing' },
-        { name: 'LLC Registration', href: '/llc-registration' },
-        { name: 'Credentialling and Enrolment', href: '/credentialling' },
-      ]
+        { name: 'Eligibility Verification & Authorizations', href: '/eligibility-verification' },
+        { name: 'Credentialing Services', href: '/credentialling' },
+        { name: 'Remote Employee Services', href: '/remote-employee-service' }, 
+      ],
     },
     { name: 'Specialities', href: '/specialities' },
     { name: 'Blog', href: '/blog' },
@@ -63,7 +63,6 @@ export function Header() {
     <header className={`bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-22">
-          {/* Logo */}
           <div className="flex-shrink-0">
             <img 
               // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
@@ -73,7 +72,6 @@ export function Header() {
             />
           </div>
 
-          {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-8 relative">
             {navigationItems.map((item) => (
               <div key={item.name} className="relative group">
@@ -120,7 +118,6 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Mobile Menu Button (Burger Menu) */}
           <div className="md:hidden">
             <Button
               variant="ghost"
@@ -138,15 +135,14 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Nav (Burger Menu) */}
         {isMenuOpen && (
           <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-slate-900">
-            {/* Header with logo and close button */}
-            <div className="flex justify-between items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700">
               <img 
-                src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
-                alt="The Spark" 
-                className="h-8 w-auto"
+                // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
+                src={GCMS_Logo}
+                alt="GCMS Logo" 
+                className="h-18 w-auto"
               />
               <Button
                 variant="ghost"
@@ -159,7 +155,6 @@ export function Header() {
               </Button>
             </div>
             
-            {/* Navigation items */}
             <nav className="px-4 py-4 overflow-y-auto h-[calc(100vh-4rem)]">
               <ul className="space-y-2">
                 {navigationItems.map((item) => (
@@ -206,12 +201,17 @@ export function Header() {
                 ))}
               </ul>
               
-              {/* Additional call-to-action buttons for mobile */}
               <div className="mt-8 space-y-4">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                   Get a Quote
-                </Button>
-                <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800">
+                </Button> */}
+                <Button 
+                  variant="outline" 
+                  className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800"
+                  onClick={() => {
+                    window.location.href = '/contact-us';
+                  }}
+                >
                   Contact Us
                 </Button>
               </div>

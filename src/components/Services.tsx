@@ -31,7 +31,8 @@ export function Services() {
       description: "Fast and accurate claim submissions",
       image: "https://thespark.pro/wp-content/uploads/2024/09/claim-submission.jpg"
     }
-  ]
+  ];
+  
   return (
     <section className="py-20 bg-white dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,11 +1,13 @@
+import GCMS_Logo from "../assets/GCMS_Logo.jpeg";
+
+
 export function Footer() {
   const footerLinks = {
     Services: [
       'Medical Billing Service',
-      'Revenue Cycle Management',
-      'Credentialing & Enrollment',
-      'AR Management Service',
-      'Denial Management'
+      'Credentialing',
+      'Remote Employee Service',
+      'Eligibility Verification & Authorizations',
     ],
     Company: [
       'About Us',
@@ -17,7 +19,7 @@ export function Footer() {
     Legal: [
       'Privacy Policy',
       'Terms of Service',
-      'HIPAA Compliance'
+      'HIPAA Compliance',
     ]
   }
   return (
@@ -26,12 +28,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <img 
-              src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
-              alt="The Spark" 
-              className="h-10 w-auto"
+              // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
+              src={GCMS_Logo}
+              alt="GCMS Logo" 
+              className="h-15 w-auto"
             />
             <p className="text-gray-300">
-              Leading medical billing services provider helping healthcare practices optimize their revenue cycle.
+              Your prescription for seamless growth
             </p>
           </div>
           {Object.entries(footerLinks).map(([category, links]) => (
@@ -57,4 +60,5 @@ export function Footer() {
       </div>
     </footer>
   )
-}
+};
+
