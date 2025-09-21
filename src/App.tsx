@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
       <main>
-      <DarkModeToggle />
+        {/* <DarkModeToggle /> */}
         <Hero />
         <Services />
         <About />

@@ -1,15 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronUp, Moon, Sun } from 'lucide-react';
 import { Button } from './ui/button';
 import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
-
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpenDesktop, setIsServicesOpenDesktop] = useState(false);
   const [isServicesOpenMobile, setIsServicesOpenMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDark, setIsDark] = useState(false); // Dark mode state
 
+  // Dark mode effect
+  useEffect(() => {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    setIsDark(isDarkMode);
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -21,7 +31,6 @@ export function Header() {
   const navigationItems = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about-us' },
-    // { name: 'Why Choose Us', href: '/why-choose-us' },
     { 
       name: 'Services', 
       href: '/services', 
@@ -36,6 +45,18 @@ export function Header() {
     { name: 'Blog', href: '/blog' },
     { name: 'Contact Us', href: '/contact-us' }
   ];
+
+  // Dark mode toggle function
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDark;
+    setIsDark(newDarkMode);
+    localStorage.setItem('darkMode', newDarkMode.toString());
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -65,7 +86,6 @@ export function Header() {
         <div className="flex justify-between items-center h-22">
           <div className="flex-shrink-0">
             <img 
-              // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
               src={GCMS_Logo}
               alt="GCMS Logo" 
               className="h-18 w-auto"
@@ -118,20 +138,34 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="md:hidden">
+          <div className="flex items-center gap-2">
+            {/* Dark Mode Toggle */}
             <Button
               variant="ghost"
               size="sm"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-              className="p-2 rounded-md"
+              onClick={toggleDarkMode}
+              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm"
+              aria-label="Toggle dark mode"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleMenu}
+                aria-label="Toggle menu"
+                className="p-2 rounded-md"
+              >
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -139,20 +173,32 @@ export function Header() {
           <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-slate-900">
             <div className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700">
               <img 
-                // src="https://thespark.pro/wp-content/uploads/2023/08/tsc-final-logo-new-Dark.png" 
                 src={GCMS_Logo}
                 alt="GCMS Logo" 
                 className="h-18 w-auto"
               />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleMenu}
-                aria-label="Close menu"
-                className="p-2 rounded-md"
-              >
-                <X className="h-6 w-6" />
-              </Button>
+              <div className="flex items-center gap-2">
+                {/* Dark Mode Toggle in Mobile Menu */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleDarkMode}
+                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm"
+                  aria-label="Toggle dark mode"
+                >
+                  {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleMenu}
+                  aria-label="Close menu"
+                  className="p-2 rounded-md"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
             </div>
             
             <nav className="px-4 py-4 overflow-y-auto h-[calc(100vh-4rem)]">
@@ -202,14 +248,12 @@ export function Header() {
               </ul>
               
               <div className="mt-8 space-y-4">
-                {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                  Get a Quote
-                </Button> */}
                 <Button 
                   variant="outline" 
                   className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800"
                   onClick={() => {
                     window.location.href = '/contact-us';
+                    closeMobileMenu();
                   }}
                 >
                   Contact Us
@@ -222,3 +266,4 @@ export function Header() {
     </header>
   );
 };
+
