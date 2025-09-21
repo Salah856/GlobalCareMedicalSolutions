@@ -25,7 +25,6 @@ const HomePage = () => {
         <Services />
         <About />
       </main>
-      <Footer />
     </div>
   );
 };
