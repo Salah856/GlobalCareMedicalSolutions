@@ -188,7 +188,7 @@ export function InteractiveFallingTags() {
     >
       <div className="absolute top-0 left-0 w-full p-6 text-center z-10">
         <h1 className="text-3xl font-bold text-white mb-2">Medical Specialties</h1>
-        <p className="text-white opacity-80">Touch tags to make them spring up! After 3 touches, they'll stay on the ground.</p>
+        {/* <p className="text-white opacity-80">Touch tags to make them spring up! After 3 touches, they'll stay on the ground.</p> */}
       </div>
       
       <div ref={containerRef} className="absolute w-full h-full">
