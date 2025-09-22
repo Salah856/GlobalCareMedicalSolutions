@@ -25,6 +25,14 @@ export function InteractiveFallingTags() {
     { text: "Surgery", color: "#DC143C" },
     { text: "Radiology", color: "#4B0082" },
     { text: "Pathology", color: "#2E8B57" },
+    { text: "Anesthesiology", color: "#FF4500" },
+    { text: "Emergency Medicine", color: "#1E90FF" },
+    { text: "Family Medicine", color: "#2F4F4F" },
+    { text: "Gastroenterology", color: "#6A5ACD" },
+    { text: "Endocrinology", color: "#FF1493" },
+    { text: "Mental Health", color: "#8B0000" },
+    { text: "Community Health Worker", color: "#8B0000" },
+
   ];
 
   useEffect(() => {
@@ -137,11 +145,34 @@ export function InteractiveFallingTags() {
   }, []);
 
   return (
+    <>
+    <h1 
+      style={{ 
+        color: "#fff", 
+        fontSize: "4rem",
+        textAlign: "center",
+        fontFamily: "Times New Roman",
+      }}
+    >
+      Our <span
+        style={{
+          background: "linear-gradient(90deg, #096A9D, #00C9FF)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          fontWeight: "bold",
+          fontSize: "4rem",
+          margin: "0 10px",
+        }}
+      >
+        Services
+      </span> includes
+    </h1>
     <div
       ref={sceneRef}
       className="relative w-full h-screen overflow-hidden"
-      style={{ background: "#4287f5" }}
+      style={{ background: "#0f144c" }}
     />
+    </>
   );
 };
 
