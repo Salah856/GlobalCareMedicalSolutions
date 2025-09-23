@@ -167,7 +167,7 @@ export function InteractiveFallingTags() {
         }}
       >
         Services
-      </span> includes
+      </span> include
     </h1>
     <div
       ref={sceneRef}
