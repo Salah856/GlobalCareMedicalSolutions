@@ -13,6 +13,7 @@ const BookConsultationPage = () => {
 
   const [consent, setConsent] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,28 +23,72 @@ const BookConsultationPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!consent) {
       alert('Please consent to receive messages to continue.');
       return;
     }
-    
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
+
+    setIsLoading(true);
+
+    try {
+      // Using FormData object for Formspree
+      const formDataToSend = new FormData();
+      formDataToSend.append('firstName', formData.firstName);
+      formDataToSend.append('lastName', formData.lastName);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('subject', formData.subject || 'New Contact Form Submission');
+      formDataToSend.append('message', formData.message);
+      
+      // Formspree specific fields
+      formDataToSend.append('_replyto', formData.email);
+      formDataToSend.append('_subject', 'New GCMS Contact Form Submission');
+
+      const response = await fetch('https://formspree.io/f/xblzjjvq', {
+        method: 'POST',
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
-      setConsent(false);
-    }, 5000);
+
+      console.log('Response status:', response.status);
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Formspree response:', result);
+        
+        setIsSubmitted(true);
+        
+        // Reset form after success
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+          });
+          setConsent(false);
+        }, 5000);
+        
+      } else {
+        const error = await response.json();
+        console.error('Formspree error:', error);
+        throw new Error('Form submission failed');
+      }
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error sending your message. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -95,11 +140,12 @@ const BookConsultationPage = () => {
                 <div className="success-message">
                   <h3>Thank You!</h3>
                   <p>Your message has been sent successfully. We'll contact you soon.</p>
+                  <p><strong>Test Email:</strong> salah.othman.elhossiny@gmail.com</p>
                 </div>
               ) : (
 
                 <form className="spark-contact-form" onSubmit={handleSubmit}>
-                 <div className="consultation-note">
+                  <div className="consultation-note">
                     <p><strong>Consulting Services in the Field of Medicine Available at NO CHARGE.</strong></p>
                     <p>The services provided by Global Care Medical Solutions (GCMS) are geared towards improving the revenue of healthcare practices by optimizing their administrative tasks. This is achieved through a collaborative approach with the client's team, ensuring that everyone is working towards the same objectives. The expert team at GCMS closely works with the client's office staff to provide fast and efficient medical billing services. This team has a wealth of experience and knowledge which is leveraged to help clients achieve their goals.</p>
                     <p>As a part of our commitment to delivering exceptional services, GCMS offers free consultation services to showcase how we can enhance the efficiency of your practice and increase revenue. We provide a comprehensive range of medical practice management services to assist in managing administrative tasks, which ultimately promotes better patient healthcare. At GCMS, we are dedicated to becoming an extension of your practice's success and are always ready to assist in any way possible.</p>
@@ -187,9 +233,13 @@ const BookConsultationPage = () => {
                     </label>
                   </div>
 
-                  <button type="submit" className="submit-btn">
-                    Send Message
+                  <button type="submit" className="submit-btn" disabled={isLoading}>
+                    {isLoading ? 'Sending...' : 'Send Message'}
                   </button>
+                  
+                  <div style={{marginTop: '10px', fontSize: '12px', color: '#666'}}>
+                    <strong>Test Mode:</strong> Emails will be sent to salah.othman.elhossiny@gmail.com
+                  </div>
                 </form>
               )}
             </div>
@@ -202,4 +252,3 @@ const BookConsultationPage = () => {
 };
 
 export default BookConsultationPage;
-
