@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { LatLngExpression } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import './SparkContactPage.css';
+
+// Fix for default markers in react-leaflet
+// delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const BookConsultationPage = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +27,8 @@ const BookConsultationPage = () => {
   const [consent, setConsent] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const officeLocation: LatLngExpression = [27.994402, -81.760254]; 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +49,7 @@ const BookConsultationPage = () => {
     setIsLoading(true);
 
     try {
-      // Using FormData object for Formspree
+      // Your existing form submission logic...
       const formDataToSend = new FormData();
       formDataToSend.append('firstName', formData.firstName);
       formDataToSend.append('lastName', formData.lastName);
@@ -43,7 +58,6 @@ const BookConsultationPage = () => {
       formDataToSend.append('subject', formData.subject || 'New Contact Form Submission');
       formDataToSend.append('message', formData.message);
       
-      // Formspree specific fields
       formDataToSend.append('_replyto', formData.email);
       formDataToSend.append('_subject', 'New GCMS Contact Form Submission');
 
@@ -55,15 +69,10 @@ const BookConsultationPage = () => {
         }
       });
 
-      console.log('Response status:', response.status);
-      
       if (response.ok) {
         const result = await response.json();
-        console.log('Formspree response:', result);
-        
         setIsSubmitted(true);
         
-        // Reset form after success
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
@@ -78,8 +87,6 @@ const BookConsultationPage = () => {
         }, 5000);
         
       } else {
-        const error = await response.json();
-        console.error('Formspree error:', error);
         throw new Error('Form submission failed');
       }
       
@@ -89,6 +96,11 @@ const BookConsultationPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Function to open directions in Google Maps
+  const openDirections = () => {
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${officeLocation[0]},${officeLocation[1]}`, '_blank');
   };
 
   return (
@@ -111,6 +123,29 @@ const BookConsultationPage = () => {
                 Park Waters Beach, FL 32547</p>
               </div>
 
+              {/* Map Section */}
+              <div className="map-section">
+                <h3>Find Us</h3>
+                <div className="map-container">
+                  <MapContainer 
+                    center={officeLocation as any}
+                    zoom={13} 
+                    style={{ height: '200px', width: '100%', borderRadius: '8px' }}
+                    scrollWheelZoom={false}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={officeLocation}>
+                      <Popup>
+                        Global Care Medical Solutions<br />
+                        1992 London Tunnel Bus Suite 1607
+                      </Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
+              </div>
+
               <div className="info-section">
                 <h3>Email Us</h3>
                 <p>gcmscorp@gmail.com</p>
@@ -126,7 +161,7 @@ const BookConsultationPage = () => {
                   <span className="btn-icon">📞</span>
                   Get Assistance
                 </button>
-                <button className="action-btn">
+                <button className="action-btn" onClick={openDirections}>
                   <span className="btn-icon">📍</span>
                   Get Directions
                 </button>
@@ -143,7 +178,6 @@ const BookConsultationPage = () => {
                   <p><strong>Test Email:</strong> salah.othman.elhossiny@gmail.com</p>
                 </div>
               ) : (
-
                 <form className="spark-contact-form" onSubmit={handleSubmit}>
                   <div className="consultation-note">
                     <p><strong>Consulting Services in the Field of Medicine Available at NO CHARGE.</strong></p>
@@ -246,7 +280,6 @@ const BookConsultationPage = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
