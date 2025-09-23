@@ -15,6 +15,7 @@ import { WhyChooseUs } from './pages/WhyChooseUs';
 import { Specialities } from './pages/Specialities';
 import { Blog } from './pages/Blog';
 import { ContactUs } from './pages/ContactUs';
+import BookConsultationPage from './pages/BookConsultation'; 
 
 
 const HomePage = () => {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/remote-employee-service" element={<RemoteEmployeeServices />} />
           <Route path="/eligibility-verification" element={<EligibilityVerification />} />
           <Route path="/credentialling" element={<CredentialingEnrollment />} />
+          <Route path="/book-consultation" element={<BookConsultationPage />} />
         </Routes>
         <Footer />
       </div>

@@ -91,6 +91,8 @@ export function InteractiveFallingTags() {
       elem.style.fontWeight = "bold";
       elem.style.userSelect = "none";
       elem.style.pointerEvents = "none"; 
+      // elem.style.cursor = "pointer";
+
 
       scene.appendChild(elem);
 
