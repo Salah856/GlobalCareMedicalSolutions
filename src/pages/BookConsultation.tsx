@@ -5,14 +5,14 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './SparkContactPage.css';
 
-// Fix for default markers in react-leaflet
-// delete L.Icon.Default.prototype._getIconUrl;
+delete (L.Icon.Default.prototype as any)._getIconUrl;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
 
 const BookConsultationPage = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const BookConsultationPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const officeLocation: LatLngExpression = [27.994402, -81.760254]; 
+  const officeLocation: LatLngExpression = [44.7972, -106.9565]; 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,11 +119,11 @@ const BookConsultationPage = () => {
             <div className="contact-info-sidebar">
               <div className="info-section">
                 <h3>Our Office</h3>
-                <p>1992 London Tunnel Bus Suite 1607 1155<br />
-                Park Waters Beach, FL 32547</p>
+                <p>
+                  Registered Agents Inc, 30 N Gould St, Sheridan, WY 82801, USA
+                </p>
               </div>
 
-              {/* Map Section */}
               <div className="map-section">
                 <h3>Find Us</h3>
                 <div className="map-container">
