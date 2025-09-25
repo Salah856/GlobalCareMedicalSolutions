@@ -7,7 +7,6 @@ import { useRef, useState, useEffect } from 'react'
 const carouselImages = [
   "https://thespark.pro/wp-content/uploads/2024/09/1-3.webp",
   "https://thespark.pro/wp-content/uploads/2024/09/medical-billing.webp",
-  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600",
   "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600"
 ];
 
