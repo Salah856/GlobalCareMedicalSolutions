@@ -62,6 +62,9 @@ export function Hero() {
               <Button 
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transform hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                onClick={()=>{
+                  window.location.href = '/book-consultation';
+                }}
               >
                 Get Started
               </Button>
@@ -69,6 +72,9 @@ export function Hero() {
                 variant="outline" 
                 size="lg" 
                 className="px-8 py-3 transform hover:scale-105 transition-transform duration-300 border-2"
+                onClick={()=>{
+                  window.location.href = '/about-us';
+                }}
               >
                 Learn More
               </Button>
