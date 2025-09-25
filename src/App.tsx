@@ -16,6 +16,7 @@ import { Specialities } from './pages/Specialities';
 import { Blog } from './pages/Blog';
 import { ContactUs } from './pages/ContactUs';
 import BookConsultationPage from './pages/BookConsultation'; 
+import { usePageTracking } from './lib/gaTracker'; 
 
 
 const HomePage = () => {
@@ -33,6 +34,7 @@ const HomePage = () => {
 };
 
 function App() {
+  usePageTracking(); 
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-slate-900">
