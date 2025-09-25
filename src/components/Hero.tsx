@@ -44,7 +44,7 @@ export function Hero() {
             ref={textRef}
             className="space-y-8"
           >
-            <div className="overflow-hidden">
+            <div className="space-y-4">
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight transition-all duration-1000 ease-out opacity-0 translate-y-8 animate-enter:opacity-100 animate-enter:translate-y-0">
                 Global Care Medical Solutions
                 <span className="block text-blue-600 dark:text-blue-400 transition-all duration-1000 ease-out delay-300 opacity-0 translate-y-8 animate-enter:opacity-100 animate-enter:translate-y-0">
