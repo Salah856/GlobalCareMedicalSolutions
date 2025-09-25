@@ -35,7 +35,7 @@ export function WhyChooseUs() {
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto
                        animate-fade-in-up animate-delay-200">
-            Discover why healthcare providers trust The Spark for their medical billing needs.
+            Discover why healthcare providers trust GCMS for their medical billing needs.
           </p>
         </div>
 
