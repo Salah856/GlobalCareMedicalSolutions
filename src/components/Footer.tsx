@@ -1,7 +1,6 @@
 import GCMS_Logo from "../assets/GCMS_Logo.jpeg";
 import GCMS_Logo_without_bg from "../assets/GCMS_Logo_without_Background.png"; 
 
-
 export function Footer() {
   const footerLinks = {
     Services: [
@@ -41,7 +40,6 @@ export function Footer() {
             
             {/* Contact Information */}
             <div className="pt-4">
-              {/* <h3 className="text-lg font-semibold mb-4">Get Your Quote Today!</h3> */}
               <div className="space-y-2">
                 <div className="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,6 +64,7 @@ export function Footer() {
             <div className="pt-4">
               <h3 className="text-lg font-semibold mb-4">Connect with us</h3>
               <div className="flex space-x-4">
+                {/* LinkedIn */}
                 <a 
                   href="https://linkedin.com/company/gcmscorp" 
                   target="_blank" 
@@ -77,23 +76,35 @@ export function Footer() {
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                   </svg>
                 </a>
-                {/* <a 
-                  href="https://www.upwork.com/agencies/1736655245525430272/" 
+                
+                <a 
+                  href="https://wa.me/1234567890" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-green-600 hover:bg-green-500 p-2 rounded-full transition-colors"
-                  aria-label="Upwork"
+                  aria-label="WhatsApp"
                 >
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.546-1.405 0-2.543-1.14-2.543-2.546V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>
+                    <path d="M12.017 2.047C6.207 2.047 1.451 6.804 1.451 12.614c0 1.846.48 3.582 1.32 5.082L2 22.047l4.396-1.156c1.45.78 3.101 1.226 4.621 1.226 5.811 0 10.567-4.757 10.567-10.567S17.828 2.047 12.017 2.047zm-5.94 14.66c-.241-.121-.872-.439-1.011-.483-.14-.045-.241-.07-.35.07-.11.14-.431.483-.527.58-.097.097-.193.121-.35.04-.158-.08-.668-.246-1.273-.78-.47-.42-.788-.94-.88-1.099-.092-.158-.01-.244.069-.323.07-.07.158-.183.237-.274.08-.092.105-.158.158-.264.053-.106.027-.198-.013-.278-.04-.08-.35-.844-.48-1.156-.122-.302-.246-.256-.35-.26-.09-.003-.197-.005-.303-.005-.106 0-.28.04-.426.198-.146.158-.558.544-.558 1.326 0 .782.57 1.538.65 1.645.08.106 1.124 1.712 2.724 2.405 1.6.693 1.6.462 1.888.432.288-.03.872-.356 1.004-.7.132-.344.132-.64.092-.7-.04-.06-.146-.096-.307-.168z"/>
                   </svg>
-                </a> */}
+                </a>
+                
+                <a 
+                  href="https://t.me/yourchannel" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-500 hover:bg-blue-400 p-2 rounded-full transition-colors"
+                  aria-label="Telegram"
+                >
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.05 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
           
-          {/* Footer Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {Object?.entries(footerLinks).map(([category, links]) => (
             <div key={category} className="space-y-4">
               <h3 className="text-lg font-semibold">{category}</h3>
               <ul className="space-y-2">
