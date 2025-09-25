@@ -16,7 +16,7 @@ import { Specialities } from './pages/Specialities';
 import { Blog } from './pages/Blog';
 import { ContactUs } from './pages/ContactUs';
 import BookConsultationPage from './pages/BookConsultation'; 
-import { usePageTracking } from './lib/gaTracker'; 
+import { Tracker } from './pages/Tracker';
 
 
 const HomePage = () => {
@@ -34,12 +34,13 @@ const HomePage = () => {
 };
 
 function App() {
-  // usePageTracking(); 
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-slate-900">
         <DarkModeToggle />
         <Header />
+        <Tracker /> 
+        
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about-us" element={<About />} />
