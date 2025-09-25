@@ -27,7 +27,8 @@ const HomePage = () => {
         <Hero />
         <InteractiveFallingTags />
         <Services />
-        <About />
+        {/* <About /> */}
+        <WhyChooseUs />
       </main>
     </div>
   );

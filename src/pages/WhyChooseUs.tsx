@@ -1,3 +1,5 @@
+import Marquee from "react-fast-marquee";
+
 export function WhyChooseUs() {
   const features = [
     {
@@ -20,7 +22,7 @@ export function WhyChooseUs() {
       description: "Affordable solutions that maximize your revenue without breaking your budget.",
       icon: "💰"
     }
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 pt-20">
@@ -61,6 +63,20 @@ export function WhyChooseUs() {
           ))}
         </div>
 
+        <div className="mb-16">
+          <Marquee
+            gradient={false}
+            speed={50}
+            pauseOnHover
+            className="bg-indigo-600 text-white py-3 rounded-lg shadow-md"
+          >
+            <span className="mx-8">👥 Expert Team you can rely on</span>
+            <span className="mx-8">💻 Advanced Technology for accuracy</span>
+            <span className="mx-8">🔄 24/7 Dedicated Support</span>
+            <span className="mx-8">💰 Cost-Effective & Revenue Focused</span>
+          </Marquee>
+        </div>
+
         {/* Optional: Animated decorative elements */}
         <div className="flex justify-center space-x-4">
           <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
@@ -69,5 +85,6 @@ export function WhyChooseUs() {
         </div>
       </div>
     </div>
-  )
+  );
 };
+
