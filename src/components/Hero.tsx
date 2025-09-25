@@ -46,8 +46,7 @@ export function Hero() {
                 Global Care Medical Solutions
               </h1>
 
-              {/* Animated sentence */}
-              <motion.div
+              {/* <motion.div
                 className="text-2xl lg:text-4xl font-semibold text-blue-600 dark:text-blue-400 flex flex-wrap"
                 initial="hidden"
                 animate="visible"
@@ -77,7 +76,49 @@ export function Hero() {
                     {char === " " ? "\u00A0" : char}
                   </motion.span>
                 ))}
-              </motion.div>
+              </motion.div> */}
+
+              {/* Animated sentence */}
+<motion.div
+  className="text-2xl lg:text-4xl font-semibold text-blue-600 dark:text-blue-400"
+  initial="hidden"
+  animate="visible"
+  variants={{
+    visible: {
+      transition: { staggerChildren: 0.04 }
+    }
+  }}
+>
+  {/* Wrap words instead of individual letters */}
+  {sentence.split(" ").map((word, wordIndex) => (
+    <span key={wordIndex} className="inline-block mr-2 last:mr-0">
+      {word.split("").map((char, charIndex) => (
+        <motion.span
+          key={`${wordIndex}-${charIndex}`}
+          className="inline-block"
+          variants={{
+            hidden: {
+              opacity: 0,
+              x: Math.random() * 200 - 100,
+              y: Math.random() * 200 - 100,
+            },
+            visible: {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              transition: { type: "spring", stiffness: 120, damping: 15 }
+            }
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+      {/* Add a space after each word except the last one */}
+      {wordIndex < sentence.split(" ").length - 1 ? "\u00A0" : ""}
+    </span>
+  ))}
+</motion.div>
+
             </div>
 
             <p className="text-lg text-gray-600 dark:text-gray-300 transition-all duration-1000 ease-out delay-500 opacity-0 translate-y-8 animate-enter:opacity-100 animate-enter:translate-y-0">
