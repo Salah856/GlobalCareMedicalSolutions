@@ -16,58 +16,68 @@ export function About() {
     <section className="py-20 bg-gray-50 dark:bg-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
+          {/* Animated Image */}
+          <div className="animate-fade-in">
             <img 
               src="https://thespark.pro/wp-content/uploads/2024/09/maim-light.jpg" 
               alt="Healthcare Professional" 
-              className="w-full h-auto rounded-lg shadow-lg"
+              className="w-full h-auto rounded-lg shadow-lg transform hover:scale-105 transition-all duration-500"
             />
           </div>
+          
+          {/* Animated Content */}
           <div className="space-y-8">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white animate-fade-in delay-100">
               Why Choose GCMS?
             </h2>
             
             {/* Company introduction */}
-            <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-3">
+            <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg animate-fade-in delay-200">
+              <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-3 animate-pulse">
                 About Global Care Medical Solutions
               </h3>
               <p className="text-green-700 dark:text-green-200 mb-4">
                 At Global Care Medical Solutions we are committed to provide accurate and effective medical billing services.
               </p>
               <ul className="list-disc pl-5 space-y-2 text-green-700 dark:text-green-200">
-                <li>Our highly trained staff is an extension to your office helping you focus on providing the quality care to your patients</li>
-                <li>We dedicate our team to increasing your revenue and handling patients concerns with utmost efficiency</li>
+                <li className="animate-fade-in delay-300">Our highly trained staff is an extension to your office helping you focus on providing the quality care to your patients</li>
+                <li className="animate-fade-in delay-400">We dedicate our team to increasing your revenue and handling patients concerns with utmost efficiency</li>
               </ul>
             </div>
             
             {/* Problem statements */}
-            <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-3">
+            <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg animate-fade-in delay-300">
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-3 animate-pulse">
                 Common Challenges We Solve:
               </h3>
               <ul className="list-disc pl-5 space-y-2 text-red-700 dark:text-red-200">
                 {problems.map((problem, index) => (
-                  <li key={index}>{problem}</li>
+                  <li key={index} className="animate-fade-in" style={{animationDelay: `${400 + index * 100}ms`}}>
+                    {problem}
+                  </li>
                 ))}
               </ul>
             </div>
             
             {/* Value proposition */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
-              <p className="text-lg font-medium text-blue-800 dark:text-blue-200">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg animate-fade-in delay-400">
+              <p className="text-lg font-medium text-blue-800 dark:text-blue-200 animate-pulse">
                 We are here to provide outstanding Revenue Cycle Management ensuring ever growing cashflow for your business.
               </p>
             </div>
             
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-lg text-gray-600 dark:text-gray-300 animate-fade-in delay-500">
               We are trusted by top healthcare providers for our expertise, reliability, and commitment to excellence in medical billing services.
             </p>
             
+            {/* Features grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {features.map((feature, index) => (
-                <div key={index} className="space-y-2">
+                <div 
+                  key={index} 
+                  className="space-y-2 p-4 bg-white dark:bg-slate-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+                  style={{animationDelay: `${600 + index * 100}ms`}}
+                >
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     {feature.title}
                   </h3>
@@ -83,3 +93,4 @@ export function About() {
     </section>
   )
 };
+

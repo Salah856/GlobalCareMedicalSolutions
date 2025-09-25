@@ -34,6 +34,7 @@ export function Header() {
   const navigationItems = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about-us' },
+    {name: 'Why Choose Us', href: '/why-choose-us' },
     { 
       name: 'Services', 
       href: '/services', 
