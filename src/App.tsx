@@ -34,7 +34,7 @@ const HomePage = () => {
 };
 
 function App() {
-  usePageTracking(); 
+  // usePageTracking(); 
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-slate-900">
