@@ -120,7 +120,7 @@ const BookConsultationPage = () => {
               <div className="info-section">
                 <h3>Our Office</h3>
                 <p>
-                  Registered Agents Inc, 30 N Gould St, Sheridan, WY 82801, USA
+                  Global Care Medical Solutions, 30 N Gould St, Sheridan, WY 82801, USA
                 </p>
               </div>
 
