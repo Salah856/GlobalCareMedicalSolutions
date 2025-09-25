@@ -263,7 +263,9 @@ const BookConsultationPage = () => {
                         required
                       />
                       <span className="checkmark"></span>
-                      By checking this box, I consent to receive text messages related to Appointment/Billing from Global Care Medical Solutions LLC. You can reply STOP to opt out at any time. Message and data rates may apply. Message frequency may vary. Text HELP for assistance. For more information, please refer to our privacy policy (https://sparkbillingnetwork.com/privacy-policy/) and GCMS Terms and Conditions (https://sparkbillingnetwork.com/terms-and-conditions-2/) on our website.
+                      By checking this box, I consent to receive text messages related to Appointment/Billing from Global Care Medical Solutions LLC. You can reply STOP to opt out at any time. Message and data rates may apply. Message frequency may vary. 
+                      Text HELP for assistance. 
+                      {/* For more information, please refer to our privacy policy and GCMS Terms and Conditions () on our website. */}
                     </label>
                   </div>
 
@@ -271,9 +273,6 @@ const BookConsultationPage = () => {
                     {isLoading ? 'Sending...' : 'Send Message'}
                   </button>
                   
-                  <div style={{marginTop: '10px', fontSize: '12px', color: '#666'}}>
-                    <strong>Test Mode:</strong> Emails will be sent to salah.othman.elhossiny@gmail.com
-                  </div>
                 </form>
               )}
             </div>
