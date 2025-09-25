@@ -46,7 +46,7 @@ export function Header() {
     },
     { name: 'Specialities', href: '/specialities' },
     { name: 'Blog', href: '/blog' },
-    { name: 'Contact Us', href: '/contact-us' }, 
+    { name: 'Contact Us', href: '/book-consultation' }, 
     { name: 'Book Consultation', href: '/book-consultation' }, 
   ];
 

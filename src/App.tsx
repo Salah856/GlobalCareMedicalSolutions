@@ -44,7 +44,7 @@ function App() {
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
           <Route path="/specialities" element={<Specialities />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/contact-us" element={<ContactUs />} />
+          {/* <Route path="/contact-us" element={<ContactUs />} /> */}
           <Route path="/medical-billing" element={<MedicalBillingService />} />
           <Route path="/llc-registration" element={<LLCRegistration />} />
           <Route path="/remote-employee-service" element={<RemoteEmployeeServices />} />
