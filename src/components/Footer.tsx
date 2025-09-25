@@ -90,20 +90,23 @@ export function Footer() {
                   </svg>
                 </a>
                 
-                {/* Instagram */}
                 <a 
-                  href="https://instagram.com/yourprofile" // Replace with actual Instagram profile link
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="bg-pink-600 hover:bg-pink-500 p-2 rounded-full transition-colors"
-                  aria-label="Instagram"
-                >
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.25 14.816 3.76 13.665 3.76 12.368s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297zm8.062-10.966c-.51 0-.923-.413-.923-.923s.413-.923.923-.923.923.413.923.923-.413.923-.923.923zm1.702 10.966c-1.297 0-2.448-.49-3.323-1.297-.807-.875-1.297-2.026-1.297-3.323s.49-2.448 1.297-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.807.875 1.297 2.026 1.297 3.323s-.49 2.448-1.297 3.323c-.875.807-2.026 1.297-3.323 1.297z"/>
-                  </svg>
+                    href="https://instagram.com/yourprofile" // Replace with actual Instagram profile link
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-pink-600 hover:bg-pink-500 p-2 rounded-full transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <svg 
+                      className="h-5 w-5" 
+                      fill="currentColor" 
+                      viewBox="0 0 24 24" 
+                      aria-hidden="true"
+                    >
+                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-.75a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0z"/>
+                    </svg>
                 </a>
                 
-                {/* WhatsApp */}
                 <a 
                   href="https://wa.me/1234567890" // Replace with actual WhatsApp number
                   target="_blank" 
