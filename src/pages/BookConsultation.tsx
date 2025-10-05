@@ -140,7 +140,7 @@ const BookConsultationPage = () => {
 
               <div className="info-section">
                 <h3>Call Us</h3>
-                <p>(416) 760-4340</p>
+                <p>+1 201-381-4440 (Ext. 800)</p>
               </div>
 
               <div className="action-buttons">
