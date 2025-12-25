@@ -183,6 +183,15 @@ export function InteractiveFallingTags() {
     World.add(engine.world, mouseConstraint);
     render.mouse = mouse;
 
+    Events.on(mouseConstraint, "startdrag", () => {
+      document.body.style.cursor = "grabbing";
+    });
+
+    Events.on(mouseConstraint, "enddrag", () => {
+      document.body.style.cursor = "default";
+    });
+
+
     // Handle mouse events on the canvas
     render.canvas.addEventListener("mousedown", () => {
       isDraggingRef.current = true;
