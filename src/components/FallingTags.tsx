@@ -45,7 +45,7 @@ export function InteractiveFallingTags() {
     if (!scene) return;
 
     // Reset engine for clean start
-    engine.gravity.y = 0.5;
+    engine.gravity.y = 0.7;
     engine.gravity.x = 0;
 
     const width = scene.offsetWidth;
