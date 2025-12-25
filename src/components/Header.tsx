@@ -79,7 +79,6 @@ export function Header() {
     setIsServicesOpenMobile(!isServicesOpenMobile);
   };
 
-  // Close mobile menu when a link is clicked
   const closeMobileMenu = () => {
     setIsMenuOpen(false);
     setIsServicesOpenMobile(false);
@@ -94,6 +93,10 @@ export function Header() {
               src={GCMS_Logo_without_bg}
               alt="GCMS Logo" 
               className="h-18 w-auto"
+              onClick={() => window.location.href = '/'}
+              style={{
+                cursor: 'pointer',
+              }}
             />
           </div>
 
