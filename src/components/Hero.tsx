@@ -46,78 +46,50 @@ export function Hero() {
                 Global Care Medical Solutions
               </h1>
 
-              {/* <motion.div
-                className="text-2xl lg:text-4xl font-semibold text-blue-600 dark:text-blue-400 flex flex-wrap"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  visible: {
-                    transition: { staggerChildren: 0.04 }
-                  }
-                }}
-              >
-                {letters.map((char, index) => (
-                  <motion.span
-                    key={index}
-                    variants={{
-                      hidden: {
-                        opacity: 0,
-                        x: Math.random() * 200 - 100, // انتشار عشوائي
-                        y: Math.random() * 200 - 100,
-                      },
-                      visible: {
-                        opacity: 1,
-                        x: 0,
-                        y: 0,
-                        transition: { type: "spring", stiffness: 120, damping: 15 }
-                      }
-                    }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                ))}
-              </motion.div> */}
+            
+            <h4> 
+              Your top choice for comprehensive medical billing services – your one-stop shop! 
+            </h4>        
 
-              {/* Animated sentence */}
-<motion.div
-  className="text-2xl lg:text-4xl font-semibold text-blue-600 dark:text-blue-400"
-  initial="hidden"
-  animate="visible"
-  variants={{
-    visible: {
-      transition: { staggerChildren: 0.04 }
-    }
-  }}
->
-  {/* Wrap words instead of individual letters */}
-  {sentence.split(" ").map((word, wordIndex) => (
-    <span key={wordIndex} className="inline-block mr-2 last:mr-0">
-      {word.split("").map((char, charIndex) => (
-        <motion.span
-          key={`${wordIndex}-${charIndex}`}
-          className="inline-block"
+            <motion.div
+          className="text-2xl lg:text-4xl font-semibold text-blue-600 dark:text-blue-400"
+          initial="hidden"
+          animate="visible"
           variants={{
-            hidden: {
-              opacity: 0,
-              x: Math.random() * 200 - 100,
-              y: Math.random() * 200 - 100,
-            },
             visible: {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              transition: { type: "spring", stiffness: 120, damping: 15 }
+              transition: { staggerChildren: 0.04 }
             }
           }}
         >
-          {char}
-        </motion.span>
-      ))}
-      {/* Add a space after each word except the last one */}
-      {wordIndex < sentence.split(" ").length - 1 ? "\u00A0" : ""}
-    </span>
-  ))}
-</motion.div>
+          {/* Wrap words instead of individual letters */}
+          {sentence.split(" ").map((word, wordIndex) => (
+            <span key={wordIndex} className="inline-block mr-2 last:mr-0">
+              {word.split("").map((char, charIndex) => (
+                <motion.span
+                  key={`${wordIndex}-${charIndex}`}
+                  className="inline-block"
+                  variants={{
+                    hidden: {
+                      opacity: 0,
+                      x: Math.random() * 200 - 100,
+                      y: Math.random() * 200 - 100,
+                    },
+                    visible: {
+                      opacity: 1,
+                      x: 0,
+                      y: 0,
+                      transition: { type: "spring", stiffness: 120, damping: 15 }
+                    }
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+              {/* Add a space after each word except the last one */}
+              {wordIndex < sentence.split(" ").length - 1 ? "\u00A0" : ""}
+            </span>
+          ))}
+            </motion.div>
 
             </div>
 

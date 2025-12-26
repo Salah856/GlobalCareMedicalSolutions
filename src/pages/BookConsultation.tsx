@@ -57,14 +57,13 @@ const BookConsultationPage = () => {
       formDataToSend.append('_subject', 'New GCMS Contact Form Submission');
 
       const response = await fetch(
-'https://formspree.io/f/xlgedjyk'
-//'https://formspree.io/f/xblzjjvq'
-
-, {
-        method: 'POST',
-        body: formDataToSend,
-        headers: { Accept: 'application/json' }
-      });
+        'https://formspree.io/f/xlgedjyk',
+        {
+          method: 'POST',
+          body: formDataToSend,
+          headers: { Accept: 'application/json' }
+        }
+      );
 
       if (response.ok) {
         setIsSubmitted(true);
@@ -88,9 +87,7 @@ const BookConsultationPage = () => {
   };
 
   return (
-    <div className="spark-contact-page">
-      
-      {/* Hero Section */}
+    <div className="spark-contact-page">      
       <motion.section 
         className="contact-hero"
         initial={{ opacity: 0, y: -40 }}
@@ -106,8 +103,6 @@ const BookConsultationPage = () => {
       <div className="contact-main-content">
         <div className="container">
           <div className="content-grid">
-
-            {/* Sidebar */}
             <motion.div 
               className="contact-info-sidebar"
               initial={{ opacity: 0, x: -50 }}
@@ -128,6 +123,7 @@ const BookConsultationPage = () => {
                     zoom={13} 
                     style={{ height: '200px', width: '100%', borderRadius: '8px' }}
                     scrollWheelZoom={false}
+                    className="leaflet-map"
                   >
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <Marker position={officeLocation}>
@@ -168,7 +164,6 @@ const BookConsultationPage = () => {
               </div>
             </motion.div>
 
-            {/* Form */}
             <motion.div 
               className="contact-form-section"
               initial={{ opacity: 0, x: 50 }}
@@ -203,7 +198,6 @@ const BookConsultationPage = () => {
                     <p>The services provided by Global Care Medical Solutions (GCMS) are geared towards improving the revenue of healthcare practices by optimizing their administrative tasks.</p>
                   </div>
 
-                  {/* Fields */}
                   <div className="name-fields">
                     <div className="form-group">
                       <label>First Name</label>
@@ -255,6 +249,7 @@ const BookConsultationPage = () => {
                 </motion.form>
               )}
             </motion.div>
+            
           </div>
         </div>
       </div>
@@ -263,3 +258,4 @@ const BookConsultationPage = () => {
 };
 
 export default BookConsultationPage;
+

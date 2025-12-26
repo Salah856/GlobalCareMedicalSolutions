@@ -11,7 +11,6 @@
   padding: 0 20px;
 }
 
-/* Header Styles */
 .spark-header {
   background: #fff;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -397,4 +396,337 @@
     flex: 1;
     justify-content: center;
   }
+}
+
+
+/* Add these styles to your existing SparkContactPage.css */
+
+/* Make form container half width */
+.half-width-form {
+  width: 50%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Form layout adjustments */
+.spark-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Two-column layouts for name and contact fields */
+.name-fields,
+.contact-fields {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Make form groups in two-column layouts take half width */
+.form-group.half {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
+/* Full-width form groups */
+.form-group:not(.half) {
+  width: 100%;
+}
+
+/* Style adjustments for inputs */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Submit button */
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Consultation note */
+.consultation-note {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  border-left: 4px solid #007bff;
+  margin-bottom: 1rem;
+}
+
+.consultation-note p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Consent checkbox */
+.consent-checkbox {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.consent-checkbox label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.consent-checkbox input[type="checkbox"] {
+  margin-top: 0.2rem;
+  cursor: pointer;
+}
+
+/* Success message */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #c3e6cb;
+}
+
+.success-message h3 {
+  margin-top: 0;
+  color: #155724;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .half-width-form {
+    width: 90%;
+    max-width: 100%;
+  }
+  
+  .name-fields,
+  .contact-fields {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group.half {
+    width: 100%;
+  }
+}
+
+
+/* Dark Mode Styles for Contact Form */
+
+/* Dark mode form container */
+.contact-form-section.dark-mode {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dark-text {
+  color: #e0e0e0 !important;
+}
+
+/* Dark form */
+.spark-contact-form.dark-form {
+  background-color: transparent;
+}
+
+/* Dark labels */
+.dark-label {
+  color: #b0b0b0 !important;
+}
+
+/* Dark inputs */
+.dark-input,
+.dark-textarea {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #404040 !important;
+  border-radius: 6px !important;
+  padding: 0.75rem !important;
+  transition: all 0.3s ease;
+}
+
+.dark-input::placeholder,
+.dark-textarea::placeholder {
+  color: #888 !important;
+}
+
+.dark-input:focus,
+.dark-textarea:focus {
+  outline: none;
+  border-color: #007bff !important;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
+  background-color: #333 !important;
+}
+
+/* Dark textarea specific */
+.dark-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Dark consent checkbox */
+.dark-consent {
+  background-color: #2d2d2d !important;
+  border: 1px solid #404040 !important;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.dark-consent label {
+  color: #b0b0b0;
+}
+
+.dark-checkbox {
+  accent-color: #007bff !important;
+  transform: scale(1.2);
+  margin-right: 0.5rem;
+}
+
+.dark-checkbox:checked {
+  background-color: #007bff !important;
+}
+
+/* Dark button */
+.dark-button {
+  background-color: #007bff !important;
+  color: white !important;
+  border: none !important;
+}
+
+.dark-button:hover:not(:disabled) {
+  background-color: #0056b3 !important;
+}
+
+.dark-button:disabled {
+  background-color: #404040 !important;
+  color: #888 !important;
+  cursor: not-allowed;
+}
+
+/* Dark success message */
+.success-message.dark-success {
+  background-color: #0f5132 !important;
+  color: #d1e7dd !important;
+  border: 1px solid #1a7550 !important;
+}
+
+.dark-success h3 {
+  color: #d1e7dd !important;
+}
+
+.dark-success p {
+  color: #d1e7dd !important;
+}
+
+/* Dark mode for input groups */
+.dark-input-group label {
+  color: #b0b0b0;
+}
+
+/* Consultation note in dark mode */
+.dark-consultation-note {
+  background-color: #2d2d2d !important;
+  border-left: 4px solid #007bff !important;
+  color: #b0b0b0 !important;
+}
+
+/* Responsive adjustments for dark mode */
+@media (max-width: 768px) {
+  .contact-form-section.dark-mode {
+    padding: 1.5rem;
+  }
+  
+  .dark-input,
+  .dark-textarea {
+    padding: 0.65rem !important;
+  }
+}
+
+/* Optional: Add smooth transition for theme switching */
+.contact-form-section,
+.spark-contact-form,
+.form-group input,
+.form-group textarea,
+.consent-checkbox,
+.submit-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+
+/* Fix for Leaflet map z-index issue */
+.spark-contact-page {
+  position: relative;
+  z-index: 1;
+}
+
+.leaflet-map {
+  position: relative;
+  z-index: 10 !important;
+}
+
+.map-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Leaflet specific z-index fixes */
+.leaflet-container {
+  position: relative;
+  z-index: 10 !important;
+}
+
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10 !important;
+}
+
+.leaflet-control {
+  z-index: 10 !important;
 }

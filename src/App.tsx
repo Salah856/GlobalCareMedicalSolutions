@@ -17,38 +17,63 @@ import { Blog } from './pages/Blog';
 import { ContactUs } from './pages/ContactUs';
 import BookConsultationPage from './pages/BookConsultation'; 
 import { Tracker } from './pages/Tracker';
+import { ContactUsForm } from './components/ContactUsForm';
+import React, { useState, useEffect } from 'react'; 
+import { SuccessStories } from './components/SuccessStories';
 
 
-const HomePage = () => {
+const HomePage = ({ isDark }) => {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
       <main>
-        {/* <DarkModeToggle /> */}
         <Hero />
         <InteractiveFallingTags />
         <Services />
-        {/* <About /> */}
+        {/* <ContactUsForm isDark={isDark} /> */}
+        <SuccessStories />
         <WhyChooseUs />
       </main>
     </div>
   );
 };
 
+
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('darkMode')
+      if (savedMode !== null) {
+        return savedMode === 'true'
+      }
+      // Check system preference
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    return false
+  })
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode]);
+
+
+
   return (
     <Router>
-      <div className="min-h-screen bg-white dark:bg-slate-900">
-        <DarkModeToggle />
+      <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
+        <DarkModeToggle isDark={isDarkMode} setIsDark={setIsDarkMode} />
         <Header />
         <Tracker /> 
         
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage isDark={isDarkMode} />} />
           <Route path="/about-us" element={<About />} />
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
           <Route path="/specialities" element={<Specialities />} />
           <Route path="/blog" element={<Blog />} />
-          {/* <Route path="/contact-us" element={<ContactUs />} /> */}
           <Route path="/medical-billing" element={<MedicalBillingService />} />
           <Route path="/llc-registration" element={<LLCRegistration />} />
           <Route path="/remote-employee-service" element={<RemoteEmployeeServices />} />
@@ -62,5 +87,4 @@ function App() {
   )
 }
 
-export default App; 
-
+export default App;

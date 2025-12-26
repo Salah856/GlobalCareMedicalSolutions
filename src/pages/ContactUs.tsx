@@ -1,4 +1,3 @@
-// src/pages/ContactUs.tsx
 export function ContactUs() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 pt-20">
