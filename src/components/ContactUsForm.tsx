@@ -70,7 +70,6 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
     }
   };
 
-  console.log(isDark)
 
   return (
     <motion.div 
