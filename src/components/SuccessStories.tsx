@@ -168,6 +168,7 @@ export const SuccessStories = () => {
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-8 rounded-lg hover:opacity-90 transition-opacity"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => window.location.href = '/book-consultation'}
               >
                 Start Your Success Story
               </motion.button>
