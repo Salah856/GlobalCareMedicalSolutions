@@ -56,7 +56,11 @@ const BookConsultationPage = () => {
       formDataToSend.append('_replyto', formData.email);
       formDataToSend.append('_subject', 'New GCMS Contact Form Submission');
 
-      const response = await fetch('https://formspree.io/f/xblzjjvq', {
+      const response = await fetch(
+'https://formspree.io/f/xlgedjyk'
+//'https://formspree.io/f/xblzjjvq'
+
+, {
         method: 'POST',
         body: formDataToSend,
         headers: { Accept: 'application/json' }
