@@ -24,7 +24,9 @@ import { SuccessStories } from './components/SuccessStories';
 
 const HomePage = ({ isDark }) => {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900">
+    <div 
+      className="min-h-screen bg-white dark:bg-slate-900"
+    >
       <main>
         <Hero />
         <InteractiveFallingTags />

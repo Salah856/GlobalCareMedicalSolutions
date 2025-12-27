@@ -1,4 +1,7 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { 
+  Card, CardContent, CardDescription, 
+  CardHeader, CardTitle 
+} from './ui/card';
 import { useState, useEffect } from 'react';
 
 export function Services() {
@@ -146,4 +149,6 @@ export function Services() {
       </div>
     </section>
   );
-}
+};
+
+
