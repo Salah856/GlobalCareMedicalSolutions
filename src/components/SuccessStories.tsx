@@ -47,7 +47,6 @@ export const SuccessStories = () => {
   return (
     <section className="py-16 px-4 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto max-w-6xl">
-        {/* Header Section */}
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
