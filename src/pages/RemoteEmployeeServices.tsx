@@ -61,7 +61,10 @@ export function RemoteEmployeeServices() {
               ))}
             </ul>
             <motion.div whileHover={{ scale: 1.05 }}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => window.location.href = '/book-consultation'}
+              >
                 Hire Remote Staff
               </Button>
             </motion.div>
@@ -167,7 +170,10 @@ export function RemoteEmployeeServices() {
               ))}
             </ul>
             <motion.div whileHover={{ scale: 1.05 }}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3">
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3"
+                onClick={() => window.location.href = '/book-consultation'}
+              >
                 Get Started Now
               </Button>
             </motion.div>

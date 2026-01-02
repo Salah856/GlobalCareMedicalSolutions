@@ -86,7 +86,7 @@ export function Header() {
 
   return (
     <header 
-      className={`bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}
+      className={`bg-sky-50 dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}
       style={{
           zIndex: '1000 !important',
       }}
@@ -127,7 +127,7 @@ export function Header() {
                     </button>
                     {isServicesOpenDesktop && (
                       <div 
-                        className="absolute left-0 mt-2 w-64 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-50"
+                        className="absolute left-0 mt-2 w-64 bg-sky-50 dark:bg-slate-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-50"
                         onMouseLeave={() => setIsServicesOpenDesktop(false)}
                       >
                         <ul className="py-2">
@@ -135,7 +135,7 @@ export function Header() {
                             <li key={sub.name}>
                               <a
                                 href={sub.href}
-                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700"
+                                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700"
                                 onClick={() => setIsServicesOpenDesktop(false)}
                               >
                                 {sub.name}
@@ -157,7 +157,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={toggleDarkMode}
-              className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm"
+              className="bg-sky-50/80 dark:bg-slate-800/80 backdrop-blur-sm"
               aria-label="Toggle dark mode"
             >
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -183,7 +183,7 @@ export function Header() {
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-slate-900">
+          <div className="md:hidden fixed inset-0 z-50 bg-sky-50 dark:bg-slate-900">
             <div className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700">
               <img 
                 src={GCMS_Logo_without_bg}
@@ -196,7 +196,7 @@ export function Header() {
                   variant="ghost"
                   size="sm"
                   onClick={toggleDarkMode}
-                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm"
+                  className="bg-sky-50/80 dark:bg-slate-800/80 backdrop-blur-sm"
                   aria-label="Toggle dark mode"
                 >
                   {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -279,4 +279,6 @@ export function Header() {
     </header>
   );
 };
+
+
 

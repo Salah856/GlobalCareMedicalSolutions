@@ -103,7 +103,10 @@ export function EligibilityVerification() {
             </motion.ul>
 
             <motion.div variants={fadeInUp}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => window.location.href = '/book-consultation'}
+              >
                 Optimize Your Verification Process
               </Button>
             </motion.div>
@@ -215,7 +218,10 @@ export function EligibilityVerification() {
             patient volume while maintaining accuracy and timely payments.
           </motion.p>
           <motion.div variants={fadeInUp}>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-3">
+            <Button 
+              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-3"
+              onClick={() => window.location.href = '/book-consultation'}
+            >
               Get Started Today
             </Button>
           </motion.div>

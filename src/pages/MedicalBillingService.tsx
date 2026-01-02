@@ -216,7 +216,10 @@ export function MedicalBillingService() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 1.2 }}
             >
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg transform hover:scale-105 transition-transform duration-300">
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg transform hover:scale-105 transition-transform duration-300"
+                onClick={() => window.location.href = '/book-consultation'}
+              >
                 Get Started Today
               </Button>
             </motion.div>

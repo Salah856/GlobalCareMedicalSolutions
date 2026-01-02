@@ -112,7 +112,10 @@ export function CredentialingEnrollment() {
             </motion.ul>
 
             <motion.div variants={fadeInUp}>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => window.location.href = '/book-consultation'}
+              >
                 Start Credentialing
               </Button>
             </motion.div>
