@@ -3,8 +3,12 @@ import { motion } from 'framer-motion';
 import '../pages/SparkContactPage.css';
 
 
-
-export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
+export const ContactUsForm: React.FC<any> = ({ 
+  isDark = false, 
+  containerStyle = {},
+  formStyle = {},
+  inputStyle = {} 
+}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -70,10 +74,39 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
     }
   };
 
+  // Apply default styles merged with passed styles
+  const defaultContainerStyle = {
+    width: '100%',
+    ...containerStyle
+  };
+
+  const defaultFormStyle = {
+    width: '100%',
+    ...formStyle
+  };
+
+  const defaultInputStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    fontSize: '1rem',
+    ...inputStyle
+  };
+
+  const nameFieldsStyle = {
+    display: 'flex',
+    gap: '1.5rem',
+    marginBottom: '1.5rem'
+  };
+
+  const halfFieldStyle = {
+    flex: 1,
+    minWidth: 0
+  };
 
   return (
     <motion.div 
-      className={`contact-form-section half-width-form ${isDark ? 'dark-mode' : ''}`}
+      className={`contact-form-section ${isDark ? 'dark-mode' : ''}`}
+      style={defaultContainerStyle}
       initial={{ opacity: 0, x: 50 }}
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
@@ -84,6 +117,10 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
       {isSubmitted ? (
         <motion.div 
           className={`success-message ${isDark ? 'dark-success' : ''}`}
+          style={{
+            width: '100%',
+            textAlign: 'center'
+          }}
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -95,14 +132,15 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
       ) : (
         <motion.form 
           className={`spark-contact-form ${isDark ? 'dark-form' : ''}`} 
+          style={defaultFormStyle}
           onSubmit={handleSubmit}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <div className="name-fields">
-            <div className={`form-group half ${isDark ? 'dark-input-group' : ''}`}>
+          <div style={nameFieldsStyle}>
+            <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={halfFieldStyle}>
               <label className={isDark ? 'dark-label' : ''}>First Name</label>
               <input 
                 type="text" 
@@ -111,9 +149,10 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
                 onChange={handleChange} 
                 required 
                 className={isDark ? 'dark-input' : ''}
+                style={defaultInputStyle}
               />
             </div>
-            <div className={`form-group half ${isDark ? 'dark-input-group' : ''}`}>
+            <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={halfFieldStyle}>
               <label className={isDark ? 'dark-label' : ''}>Last Name</label>
               <input 
                 type="text" 
@@ -122,12 +161,13 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
                 onChange={handleChange} 
                 required 
                 className={isDark ? 'dark-input' : ''}
+                style={defaultInputStyle}
               />
             </div>
           </div>
 
-          <div className="contact-fields">
-            <div className={`form-group half ${isDark ? 'dark-input-group' : ''}`}>
+          <div style={nameFieldsStyle}>
+            <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={halfFieldStyle}>
               <label className={isDark ? 'dark-label' : ''}>Email</label>
               <input 
                 type="email" 
@@ -136,9 +176,10 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
                 onChange={handleChange} 
                 required 
                 className={isDark ? 'dark-input' : ''}
+                style={defaultInputStyle}
               />
             </div>
-            <div className={`form-group half ${isDark ? 'dark-input-group' : ''}`}>
+            <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={halfFieldStyle}>
               <label className={isDark ? 'dark-label' : ''}>Phone</label>
               <input 
                 type="tel" 
@@ -147,11 +188,12 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
                 onChange={handleChange} 
                 placeholder="8000 000-0000" 
                 className={isDark ? 'dark-input' : ''}
+                style={defaultInputStyle}
               />
             </div>
           </div>
 
-          <div className={`form-group ${isDark ? 'dark-input-group' : ''}`}>
+          <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={{ marginBottom: '1.5rem' }}>
             <label className={isDark ? 'dark-label' : ''}>Subject</label>
             <input 
               type="text" 
@@ -159,10 +201,11 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
               value={formData.subject} 
               onChange={handleChange} 
               className={isDark ? 'dark-input' : ''}
+              style={defaultInputStyle}
             />
           </div>
 
-          <div className={`form-group ${isDark ? 'dark-input-group' : ''}`}>
+          <div className={`form-group ${isDark ? 'dark-input-group' : ''}`} style={{ marginBottom: '1.5rem' }}>
             <label className={isDark ? 'dark-label' : ''}><strong>Brief Message</strong></label>
             <textarea 
               rows={5} 
@@ -172,10 +215,16 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
               placeholder="Details you may want to share with us/offers!" 
               required
               className={isDark ? 'dark-textarea' : ''}
+              style={{
+                width: '100%',
+                padding: '1rem',
+                fontSize: '1rem',
+                ...inputStyle
+              }}
             ></textarea>
           </div>
 
-          <div className={`consent-checkbox ${isDark ? 'dark-consent' : ''}`}>
+          <div className={`consent-checkbox ${isDark ? 'dark-consent' : ''}`} style={{ marginBottom: '1.5rem' }}>
             <label className={isDark ? 'dark-label' : ''}>
               <input 
                 type="checkbox" 
@@ -183,8 +232,15 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
                 onChange={(e) => setConsent(e.target.checked)} 
                 required 
                 className={isDark ? 'dark-checkbox' : ''}
+                style={{ marginRight: '0.5rem' }}
               />
-              <span className={`checkmark ${isDark ? 'dark-checkmark' : ''}`}></span>
+              <span 
+                className={`checkmark ${isDark ? 'dark-checkmark' : ''}`}
+                style={{
+                  color:'black',
+                }}
+                >
+                </span>
               By checking this box, I consent to receive text messages related to Appointment/Billing from Global Care Medical Solutions LLC.
             </label>
           </div>
@@ -193,6 +249,11 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
             type="submit" 
             className={`submit-btn ${isDark ? 'dark-button' : ''}`} 
             disabled={isLoading}
+            style={{
+              width: '100%',
+              padding: '1rem 2rem',
+              fontSize: '1.1rem'
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -203,4 +264,3 @@ export const ContactUsForm: React.FC<any> = ({ isDark = false }) => {
     </motion.div>
   );
 };
-

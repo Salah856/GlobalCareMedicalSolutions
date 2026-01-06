@@ -217,7 +217,6 @@ export function Hero() {
                   border: `2px solid ${colors.accent2}50`,
                 }}></div>
 
-              {/* Main Image */}
               <img 
                 ref={imageRef}
                 src="https://thespark.pro/wp-content/uploads/2024/09/medical-billing.webp" 

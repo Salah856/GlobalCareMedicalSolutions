@@ -20,6 +20,9 @@ import { Tracker } from './pages/Tracker';
 import { ContactUsForm } from './components/ContactUsForm';
 import React, { useState, useEffect } from 'react'; 
 import { SuccessStories } from './components/SuccessStories';
+import { ChatButton } from './components/ChatButton';
+
+
 
 
 const HomePage = ({ isDark }) => {
@@ -69,6 +72,8 @@ function App() {
         <DarkModeToggle isDark={isDarkMode} setIsDark={setIsDarkMode} />
         <Header />
         <Tracker /> 
+
+        <ChatButton isDark={isDarkMode} />
         
         <Routes>
           <Route path="/" element={<HomePage isDark={isDarkMode} />} />
