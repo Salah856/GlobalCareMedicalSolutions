@@ -5,7 +5,6 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from '@emotion/styled';
-
 import { Variants } from 'framer-motion';
 
 // Animation variants with proper types
