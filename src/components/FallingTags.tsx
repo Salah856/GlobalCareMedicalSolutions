@@ -202,29 +202,29 @@ export function InteractiveFallingTags() {
     });
 
     // Handle touch events
+    let isDraggingTag = false;
+
     render.canvas.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      isDraggingRef.current = true;
-      // Update mouse position for touch
       if (e.touches[0]) {
         const rect = render.canvas.getBoundingClientRect();
         mouse.absolute.x = e.touches[0].clientX - rect.left;
         mouse.absolute.y = e.touches[0].clientY - rect.top;
         mouse.button = 0;
         mouse.mousedown(null);
+        isDraggingTag = true;
       }
-    }, { passive: false });
+    }, { passive: true });
 
-    render.canvas.addEventListener("touchend", (e) => {
-      e.preventDefault();
+    render.canvas.addEventListener("touchend", () => {
+      isDraggingTag = false;
       isDraggingRef.current = false;
       mouse.button = -1;
       mouse.mouseup(null);
-    }, { passive: false });
+    }, { passive: true });
 
     render.canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      if (e.touches[0]) {
+      if (isDraggingTag && e.touches[0]) {
+        e.preventDefault();
         const rect = render.canvas.getBoundingClientRect();
         mouse.absolute.x = e.touches[0].clientX - rect.left;
         mouse.absolute.y = e.touches[0].clientY - rect.top;
