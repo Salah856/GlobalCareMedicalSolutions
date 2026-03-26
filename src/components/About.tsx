@@ -58,6 +58,10 @@ const gradientShift = keyframes`
 const Section = styled.section`
   padding: 5rem 0;
   background: white;
+  
+  .dark & {
+    background: #0f172a;
+  }
 `;
 
 const Container = styled.div`
@@ -131,11 +135,20 @@ const Card = styled.div<{ color: string; delay: number }>`
   animation: ${fadeIn} 0.8s ease-out ${({ delay }) => delay}s both;
   transition: all 0.3s ease;
   
+  .dark & {
+    background: ${({ color }) => color}15;
+    border-color: ${({ color }) => color}40;
+  }
+  
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px ${({ color }) => color}15;
     border-color: ${({ color }) => color}40;
     background: ${({ color }) => color}10;
+  }
+  
+  .dark &:hover {
+    background: ${({ color }) => color}20;
   }
 `;
 
@@ -158,6 +171,10 @@ const List = styled.ul`
 const ListItem = styled.li<{ delay: number }>`
   color: inherit;
   animation: ${fadeIn} 0.8s ease-out ${({ delay }) => delay}s both;
+  
+  .dark & {
+    color: #d1d5db;
+  }
 `;
 
 const FeaturesGrid = styled.div`
@@ -179,11 +196,19 @@ const FeatureCard = styled.div<{ delay: number }>`
   transition: all 0.3s ease;
   border-left: 4px solid ${colors.accent};
   
+  .dark & {
+    background: #1e293b;
+  }
+  
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(104, 3, 255, 0.15);
     border-left-color: ${colors.primary};
     background: white;
+  }
+  
+  .dark &:hover {
+    background: #334155;
   }
 `;
 
@@ -192,12 +217,20 @@ const FeatureTitle = styled.h3`
   font-weight: 600;
   color: ${colors.secondary};
   margin-bottom: 0.5rem;
+  
+  .dark & {
+    color: #60a5fa;
+  }
 `;
 
 const Paragraph = styled.p<{ delay: number }>`
   color: #4b5563;
   animation: ${fadeIn} 0.8s ease-out ${({ delay }) => delay}s both;
   line-height: 1.6;
+  
+  .dark & {
+    color: #d1d5db;
+  }
 `;
 
 const ValueProposition = styled.div`
@@ -207,6 +240,11 @@ const ValueProposition = styled.div`
   background-size: 200% 200%;
   animation: ${gradientShift} 3s ease infinite, ${fadeIn} 0.8s ease-out 0.4s both;
   border: 1px solid ${colors.primary}30;
+  
+  .dark & {
+    background: linear-gradient(135deg, ${colors.primary}20 0%, ${colors.accent}20 100%);
+    border-color: ${colors.primary}50;
+  }
 `;
 
 export function About() {
