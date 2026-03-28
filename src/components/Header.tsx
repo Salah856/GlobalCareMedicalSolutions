@@ -4,14 +4,12 @@ import { Button } from './ui/button';
 import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
 import GCMS_Logo_without_bg from "../assets/GCMS_Logo_without_Background.png"; 
 
-
-
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpenDesktop, setIsServicesOpenDesktop] = useState(false);
   const [isServicesOpenMobile, setIsServicesOpenMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(false); // Dark mode state
+  const [isDark, setIsDark] = useState(false);
 
   // Dark mode effect
   useEffect(() => {
@@ -31,10 +29,25 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Color mapping for each navigation item
+  const getNavItemColor = (itemName) => {
+    const colors = {
+      'Home': 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300',
+      'About Us': 'text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300',
+      'Why Choose Us': 'text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300',
+      'Services': 'text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300',
+      'Specialities': 'text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300',
+      'Blog': 'text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300',
+      'Contact Us': 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300',
+      'Book Consultation': 'text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300'
+    };
+    return colors[itemName] || 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400';
+  };
+
   const navigationItems = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about-us' },
-    {name: 'Why Choose Us', href: '/why-choose-us' },
+    { name: 'Why Choose Us', href: '/why-choose-us' },
     { 
       name: 'Services', 
       href: '/services', 
@@ -51,7 +64,6 @@ export function Header() {
     { name: 'Book Consultation', href: '/book-consultation' }, 
   ];
 
-  // Dark mode toggle function
   const toggleDarkMode = () => {
     const newDarkMode = !isDark;
     setIsDark(newDarkMode);
@@ -65,7 +77,6 @@ export function Header() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    // Reset mobile services dropdown when menu is closed
     if (isMenuOpen) {
       setIsServicesOpenMobile(false);
     }
@@ -88,7 +99,7 @@ export function Header() {
     <header 
       className={`bg-sky-50 dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}
       style={{
-          zIndex: '1000 !important',
+        zIndex: '1000',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,17 +112,18 @@ export function Header() {
               onClick={() => window.location.href = '/'}
               style={{
                 cursor: 'pointer',
+                width: '12rem',
               }}
             />
           </div>
 
-          <nav className="hidden md:flex space-x-8 relative">
+          <nav className="hidden md:flex space-x-8 relative items-center">
             {navigationItems.map((item) => (
-              <div key={item.name} className="relative group">
+              <div key={item.name} className="relative">
                 {!item.subItems ? (
                   <a
                     href={item.href}
-                    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium transition-colors"
+                    className={`${getNavItemColor(item.name)} px-3 py-2 text-sm font-medium transition-colors inline-flex items-center`}
                   >
                     {item.name}
                   </a>
@@ -120,7 +132,7 @@ export function Header() {
                     <button
                       onClick={toggleServicesDesktop}
                       onMouseEnter={() => setIsServicesOpenDesktop(true)}
-                      className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium transition-colors"
+                      className={`${getNavItemColor(item.name)} flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors`}
                     >
                       {item.name}
                       <ChevronDown className={`h-4 w-4 transition-transform ${isServicesOpenDesktop ? 'rotate-180' : ''}`} />
@@ -184,14 +196,15 @@ export function Header() {
 
         {isMenuOpen && (
           <div className="md:hidden fixed inset-0 z-50 bg-sky-50 dark:bg-slate-900">
-            <div className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700">
+            <div 
+              className="flex justify-between items-center h-22 px-4 border-b border-gray-200 dark:border-gray-700"
+            >
               <img 
                 src={GCMS_Logo_without_bg}
                 alt="GCMS Logo" 
                 className="h-18 w-auto"
               />
               <div className="flex items-center gap-2">
-                {/* Dark Mode Toggle in Mobile Menu */}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -216,48 +229,51 @@ export function Header() {
             
             <nav className="px-4 py-4 overflow-y-auto h-[calc(100vh-4rem)]">
               <ul className="space-y-2">
-                {navigationItems.map((item) => (
-                  <li key={item.name} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                    {!item.subItems ? (
-                      <a
-                        href={item.href}
-                        className="block py-4 text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                        onClick={closeMobileMenu}
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <>
-                        <button
-                          onClick={toggleServicesMobile}
-                          className="flex items-center justify-between w-full py-4 text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                {navigationItems.map((item) => {
+                  const mobileColorClass = getNavItemColor(item.name);
+                  return (
+                    <li key={item.name} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                      {!item.subItems ? (
+                        <a
+                          href={item.href}
+                          className={`block py-4 text-lg font-medium ${mobileColorClass} transition-colors`}
+                          onClick={closeMobileMenu}
                         >
                           {item.name}
-                          {isServicesOpenMobile ? (
-                            <ChevronUp className="h-5 w-5" />
-                          ) : (
-                            <ChevronDown className="h-5 w-5" />
+                        </a>
+                      ) : (
+                        <>
+                          <button
+                            onClick={toggleServicesMobile}
+                            className={`flex items-center justify-between w-full py-4 text-lg font-medium ${mobileColorClass} transition-colors`}
+                          >
+                            {item.name}
+                            {isServicesOpenMobile ? (
+                              <ChevronUp className="h-5 w-5" />
+                            ) : (
+                              <ChevronDown className="h-5 w-5" />
+                            )}
+                          </button>
+                          {isServicesOpenMobile && (
+                            <ul className="pl-6 pb-2 space-y-2">
+                              {item.subItems.map((sub) => (
+                                <li key={sub.name}>
+                                  <a
+                                    href={sub.href}
+                                    className="block py-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                    onClick={closeMobileMenu}
+                                  >
+                                    {sub.name}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
                           )}
-                        </button>
-                        {isServicesOpenMobile && (
-                          <ul className="pl-6 pb-2 space-y-2">
-                            {item.subItems.map((sub) => (
-                              <li key={sub.name}>
-                                <a
-                                  href={sub.href}
-                                  className="block py-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                                  onClick={closeMobileMenu}
-                                >
-                                  {sub.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </>
-                    )}
-                  </li>
-                ))}
+                        </>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
               
               <div className="mt-8 space-y-4">
@@ -279,6 +295,3 @@ export function Header() {
     </header>
   );
 };
-
-
-

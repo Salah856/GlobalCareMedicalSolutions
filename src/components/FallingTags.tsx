@@ -5,18 +5,13 @@ import {
   World,
   Bodies,
   Runner,
-  Mouse,
-  MouseConstraint,
   Body,
-  Events,
 } from "matter-js";
 
 export function InteractiveFallingTags() {
   const sceneRef = useRef<HTMLDivElement | null>(null);
   const engineRef = useRef(Engine.create());
-  const isDraggingRef = useRef(false);
   const frameIdRef = useRef<number | null>(null);
-  const mouseConstraintRef = useRef<MouseConstraint | null>(null);
   const tagBodiesRef = useRef<Array<{ elem: HTMLDivElement; body: Body; w: number; h: number }>>([]);
 
   const tags = [
@@ -39,13 +34,29 @@ export function InteractiveFallingTags() {
     { text: "Community Health Worker", color: "#8B0000" },
   ];
 
+  // Function to reset a tag with random position and velocity
+  const resetTagRandomly = (tag: { elem: HTMLDivElement; body: Body; w: number; h: number }, width: number, height: number) => {
+    // Random X position within bounds
+    const randomX = Math.random() * (width - tag.w) + tag.w / 2;
+    // Start from above the container - make sure it's visible
+    const randomY = -Math.random() * height * 0.5 - tag.h;
+    
+    // Random velocity for interesting movement
+    const randomVelocityX = (Math.random() - 0.5) * 3;
+    const randomVelocityY = Math.random() * 4 + 2;
+    
+    Body.setPosition(tag.body, { x: randomX, y: randomY });
+    Body.setVelocity(tag.body, { x: randomVelocityX, y: randomVelocityY });
+    Body.setAngularVelocity(tag.body, (Math.random() - 0.5) * 0.08);
+  };
+
   useEffect(() => {
     const engine = engineRef.current;
     const scene = sceneRef.current;
     if (!scene) return;
 
-    // Reset engine for clean start
-    engine.gravity.y = 0.7;
+    // Reset engine
+    engine.gravity.y = 0.3;
     engine.gravity.x = 0;
 
     const width = scene.offsetWidth;
@@ -54,7 +65,7 @@ export function InteractiveFallingTags() {
     // Clear previous content
     scene.innerHTML = "";
 
-    // Create renderer
+    // Create renderer directly in scene
     const render = Render.create({
       element: scene,
       engine,
@@ -74,18 +85,10 @@ export function InteractiveFallingTags() {
     render.canvas.style.position = "absolute";
     render.canvas.style.top = "0";
     render.canvas.style.left = "0";
-    render.canvas.style.zIndex = "1"; // Canvas behind tags
-    render.canvas.style.pointerEvents = "auto";
+    render.canvas.style.zIndex = "1";
+    render.canvas.style.pointerEvents = "none";
 
-    // Enable mouse events on canvas
-    render.canvas.style.touchAction = "none";
-    render.canvas.style.userSelect = "none";
-
-    const runner = Runner.create({
-      delta: 1000 / 60,
-      isFixed: true,
-    });
-
+    const runner = Runner.create();
     Runner.run(runner, engine);
     Render.run(render);
 
@@ -104,16 +107,20 @@ export function InteractiveFallingTags() {
         isStatic: true,
         render: { visible: false },
       }),
+      Bodies.rectangle(width / 2, -wallThickness / 2, width + 100, wallThickness, {
+        isStatic: true,
+        render: { visible: false },
+      }),
     ];
 
     World.add(engine.world, boundaries);
 
-    // Create tags
-    const tagBodies = tags.map((tag, i) => {
+    // Create tags with different starting positions
+    const tagBodies = tags.map((tag, index) => {
       const elem = document.createElement("div");
       elem.innerText = tag.text;
       elem.style.position = "absolute";
-      elem.style.zIndex = "2"; // Tags above canvas
+      elem.style.zIndex = "2";
       elem.style.padding = "8px 16px";
       elem.style.borderRadius = "25px";
       elem.style.background = tag.color;
@@ -123,8 +130,9 @@ export function InteractiveFallingTags() {
       elem.style.userSelect = "none";
       elem.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
       elem.style.whiteSpace = "nowrap";
-      elem.style.cursor = "grab";
-      elem.style.pointerEvents = "none"; // Let events pass through to canvas
+      elem.style.cursor = "default";
+      elem.style.pointerEvents = "none";
+      elem.style.opacity = "1";
 
       // Calculate dimensions
       const tempDiv = document.createElement("div");
@@ -137,132 +145,113 @@ export function InteractiveFallingTags() {
       tempDiv.innerText = tag.text;
       document.body.appendChild(tempDiv);
       
-      const w = Math.max(tempDiv.offsetWidth, 120) + 10;
-      const h = Math.max(tempDiv.offsetHeight, 40) + 10;
+      const w = tempDiv.offsetWidth + 20;
+      const h = tempDiv.offsetHeight + 10;
       document.body.removeChild(tempDiv);
 
-      scene.appendChild(elem);
+      // Position tags at different heights so they're all visible
+      // Some at the top, some midway, some at the bottom
+      let randomY;
+      if (index < 5) {
+        // First 5 tags start near the top
+        randomY = Math.random() * (height * 0.2);
+      } else if (index < 10) {
+        // Next 5 tags start in the middle
+        randomY = height * 0.3 + Math.random() * (height * 0.3);
+      } else {
+        // Remaining tags start near the top but with different spacing
+        randomY = Math.random() * (height * 0.4) - 50;
+      }
+      
+      const randomX = Math.random() * (width - w) + w / 2;
 
-      // Position tags randomly
-      const x = Math.random() * (width - w * 1.5) + w * 0.75;
-      const y = -Math.random() * height * 2 - i * 30;
-
-      const body = Bodies.rectangle(x + w / 2, y, w, h, {
-        restitution: 0.4,
+      // Create body
+      const body = Bodies.rectangle(randomX, randomY, w, h, {
+        restitution: 0.6 + Math.random() * 0.3,
         friction: 0.1,
         frictionAir: 0.02,
         density: 0.001,
-        chamfer: { radius: h / 2 },
+        chamfer: { radius: 15 },
         render: { visible: false },
-        label: `tag-${i}`,
       });
 
+      // Set random initial velocity - all moving downward but with different speeds
+      Body.setVelocity(body, { 
+        x: (Math.random() - 0.5) * 2, 
+        y: Math.random() * 3 + 1 
+      });
+      
+      // Add random angular velocity
+      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.05);
+
       World.add(engine.world, body);
+      
+      // Set initial position
+      elem.style.left = `${randomX - w / 2}px`;
+      elem.style.top = `${randomY - h / 2}px`;
+      
+      scene.appendChild(elem);
 
       return { elem, body, w, h };
     });
 
     tagBodiesRef.current = tagBodies;
 
-    // Setup mouse constraint for interaction
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-      mouse: mouse,
-      constraint: {
-        stiffness: 0.2,
-        damping: 0.1,
-        render: { visible: false }
-      }
-    });
+    // Animation loop with continuous randomization
+    let lastRandomizeTime = Date.now();
+    const RANDOMIZE_INTERVAL = 1000; // Randomize every second
 
-    mouseConstraintRef.current = mouseConstraint;
-    
-    // Make sure mouse constraint can interact with all bodies
-    mouseConstraint.collisionFilter.mask = 0xFFFFFFFF;
-    
-    World.add(engine.world, mouseConstraint);
-    render.mouse = mouse;
-
-    Events.on(mouseConstraint, "startdrag", () => {
-      document.body.style.cursor = "grabbing";
-    });
-
-    Events.on(mouseConstraint, "enddrag", () => {
-      document.body.style.cursor = "default";
-    });
-
-
-    // Handle mouse events on the canvas
-    render.canvas.addEventListener("mousedown", () => {
-      isDraggingRef.current = true;
-    });
-
-    render.canvas.addEventListener("mouseup", () => {
-      isDraggingRef.current = false;
-    });
-
-    // Handle touch events
-    let isDraggingTag = false;
-
-    render.canvas.addEventListener("touchstart", (e) => {
-      if (e.touches[0]) {
-        const rect = render.canvas.getBoundingClientRect();
-        mouse.absolute.x = e.touches[0].clientX - rect.left;
-        mouse.absolute.y = e.touches[0].clientY - rect.top;
-        mouse.button = 0;
-        mouse.mousedown(null);
-        isDraggingTag = true;
-      }
-    }, { passive: true });
-
-    render.canvas.addEventListener("touchend", () => {
-      isDraggingTag = false;
-      isDraggingRef.current = false;
-      mouse.button = -1;
-      mouse.mouseup(null);
-    }, { passive: true });
-
-    render.canvas.addEventListener("touchmove", (e) => {
-      if (isDraggingTag && e.touches[0]) {
-        e.preventDefault();
-        const rect = render.canvas.getBoundingClientRect();
-        mouse.absolute.x = e.touches[0].clientX - rect.left;
-        mouse.absolute.y = e.touches[0].clientY - rect.top;
-      }
-    }, { passive: false });
-
-    // Update DOM positions
     const updateTags = () => {
-      tagBodies.forEach(({ elem, body, w, h }) => {
+      const currentWidth = scene.offsetWidth;
+      const currentHeight = scene.offsetHeight;
+      const now = Date.now();
+      
+      tagBodies.forEach((tag) => {
         // Reset if fallen too far
-        if (body.position.y > height + 200) {
-          Body.setPosition(body, {
-            x: Math.random() * (width - w * 1.5) + w * 0.75,
-            y: -50
-          });
-          Body.setVelocity(body, { x: 0, y: 0 });
-          Body.setAngularVelocity(body, 0);
+        if (tag.body.position.y > currentHeight + 100) {
+          resetTagRandomly(tag, currentWidth, currentHeight);
         }
-
-        // Update element position
-        elem.style.left = `${body.position.x - w / 2}px`;
-        elem.style.top = `${body.position.y - h / 2}px`;
-        elem.style.transform = `rotate(${body.angle}rad)`;
         
-        // Change cursor when dragging
-        if (mouseConstraint.body === body) {
-          elem.style.cursor = "grabbing";
-        } else {
-          elem.style.cursor = "grab";
+        // Randomize velocities periodically for continuous movement variation
+        if (now - lastRandomizeTime > RANDOMIZE_INTERVAL) {
+          // Add small random impulse to 30% of tags
+          if (Math.random() < 0.3) {
+            const randomImpulseX = (Math.random() - 0.5) * 0.03;
+            const randomImpulseY = (Math.random() - 0.5) * 0.02;
+            Body.applyForce(tag.body, tag.body.position, { 
+              x: randomImpulseX, 
+              y: randomImpulseY 
+            });
+          }
+          
+          // Randomly adjust velocity for some tags
+          if (Math.random() < 0.2) {
+            const newVelX = tag.body.velocity.x + (Math.random() - 0.5) * 1;
+            const newVelY = tag.body.velocity.y + (Math.random() - 0.5) * 0.8;
+            Body.setVelocity(tag.body, {
+              x: Math.min(Math.max(newVelX, -5), 5),
+              y: Math.min(Math.max(newVelY, -8), 10)
+            });
+          }
         }
+        
+        // Update position
+        tag.elem.style.left = `${tag.body.position.x - tag.w / 2}px`;
+        tag.elem.style.top = `${tag.body.position.y - tag.h / 2}px`;
+        tag.elem.style.transform = `rotate(${tag.body.angle}rad)`;
       });
+      
+      // Reset the randomize timer
+      if (now - lastRandomizeTime > RANDOMIZE_INTERVAL) {
+        lastRandomizeTime = now;
+      }
 
       frameIdRef.current = requestAnimationFrame(updateTags);
     };
 
     updateTags();
 
-    // Handle window resize
+    // Handle resize
     const handleResize = () => {
       if (!scene) return;
       
@@ -274,14 +263,16 @@ export function InteractiveFallingTags() {
       render.canvas.width = newWidth;
       render.canvas.height = newHeight;
       
-      // Update boundary positions
+      // Update boundaries
       boundaries.forEach((boundary, index) => {
-        if (index === 0) { // floor
+        if (index === 0) {
           Body.setPosition(boundary, { x: newWidth / 2, y: newHeight + wallThickness / 2 });
-        } else if (index === 1) { // left wall
+        } else if (index === 1) {
           Body.setPosition(boundary, { x: -wallThickness / 2, y: newHeight / 2 });
-        } else if (index === 2) { // right wall
+        } else if (index === 2) {
           Body.setPosition(boundary, { x: newWidth + wallThickness / 2, y: newHeight / 2 });
+        } else if (index === 3) {
+          Body.setPosition(boundary, { x: newWidth / 2, y: -wallThickness / 2 });
         }
       });
     };
@@ -302,9 +293,8 @@ export function InteractiveFallingTags() {
         render.canvas.parentNode.removeChild(render.canvas);
       }
       
-      // Clean up DOM elements
       tagBodies.forEach(({ elem }) => {
-        if (elem.parentNode) {
+        if (elem && elem.parentNode) {
           elem.parentNode.removeChild(elem);
         }
       });
@@ -353,8 +343,8 @@ export function InteractiveFallingTags() {
         style={{
           position: "relative",
           width: "100%",
-          height: "500px",
-          maxWidth: "1200px",
+          height: "350px",
+          maxWidth: "94%",
           margin: "0 auto",
           overflow: "hidden",
           borderRadius: "12px",
@@ -363,18 +353,10 @@ export function InteractiveFallingTags() {
         }}
       />
       
-      <div style={{
-        textAlign: "center",
-        color: "rgba(255, 255, 255, 0.7)",
-        marginTop: "20px",
-        fontSize: "14px",
-        fontFamily: "sans-serif"
-      }}>
-        👆 Drag tags around to interact
-      </div>
     </div>
   );
 };
+
 
 
 
@@ -392,7 +374,8 @@ export function InteractiveFallingTags() {
 //   Runner,
 //   Mouse,
 //   MouseConstraint,
-//   Body, 
+//   Body,
+//   Events,
 // } from "matter-js";
 
 // export function InteractiveFallingTags() {
@@ -400,6 +383,8 @@ export function InteractiveFallingTags() {
 //   const engineRef = useRef(Engine.create());
 //   const isDraggingRef = useRef(false);
 //   const frameIdRef = useRef<number | null>(null);
+//   const mouseConstraintRef = useRef<MouseConstraint | null>(null);
+//   const tagBodiesRef = useRef<Array<{ elem: HTMLDivElement; body: Body; w: number; h: number }>>([]);
 
 //   const tags = [
 //     { text: "Internal Medicine", color: "#8B0000" },
@@ -426,11 +411,15 @@ export function InteractiveFallingTags() {
 //     const scene = sceneRef.current;
 //     if (!scene) return;
 
-//     engine.gravity.y = 0.8;
+//     // Reset engine for clean start
+//     engine.gravity.y = 0.7;
 //     engine.gravity.x = 0;
 
 //     const width = scene.offsetWidth;
 //     const height = scene.offsetHeight;
+
+//     // Clear previous content
+//     scene.innerHTML = "";
 
 //     // Create renderer
 //     const render = Render.create({
@@ -445,84 +434,94 @@ export function InteractiveFallingTags() {
 //         showCollisions: false,
 //         showAngleIndicator: false,
 //         showSleeping: false,
+//         showDebug: false,
 //       },
 //     });
 
 //     render.canvas.style.position = "absolute";
 //     render.canvas.style.top = "0";
 //     render.canvas.style.left = "0";
-//     render.canvas.style.zIndex = "0";
+//     render.canvas.style.zIndex = "1"; // Canvas behind tags
 //     render.canvas.style.pointerEvents = "auto";
 
-//     // Optimize renderer
-//     Render.setPixelRatio(render, window.devicePixelRatio || 1);
+//     // Enable mouse events on canvas
+//     render.canvas.style.touchAction = "none";
+//     render.canvas.style.userSelect = "none";
 
 //     const runner = Runner.create({
 //       delta: 1000 / 60,
 //       isFixed: true,
-//       enabled: true,
 //     });
 
 //     Runner.run(runner, engine);
 //     Render.run(render);
 
-//     // World boundaries with slight buffer
+//     // World boundaries
 //     const wallThickness = 50;
-//     const floor = Bodies.rectangle(width / 2, height + wallThickness / 2, width + 100, wallThickness, {
-//       isStatic: true,
-//       render: { visible: false },
-//     });
-//     const leftWall = Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height + 100, {
-//       isStatic: true,
-//       render: { visible: false },
-//     });
+//     const boundaries = [
+//       Bodies.rectangle(width / 2, height + wallThickness / 2, width + 100, wallThickness, {
+//         isStatic: true,
+//         render: { visible: false },
+//       }),
+//       Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height + 100, {
+//         isStatic: true,
+//         render: { visible: false },
+//       }),
+//       Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height + 100, {
+//         isStatic: true,
+//         render: { visible: false },
+//       }),
+//     ];
 
-//     const rightWall = Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height + 100, {
-//       isStatic: true,
-//       render: { visible: false, },
-//     });
+//     World.add(engine.world, boundaries);
 
-//     World.add(engine.world, [floor, leftWall, rightWall]);
-
+//     // Create tags
 //     const tagBodies = tags.map((tag, i) => {
-//       const elem = document?.createElement("div");
-//       elem.innerText = tag?.text;
+//       const elem = document.createElement("div");
+//       elem.innerText = tag.text;
 //       elem.style.position = "absolute";
-//       elem.style.zIndex = "10";
+//       elem.style.zIndex = "2"; // Tags above canvas
 //       elem.style.padding = "8px 16px";
 //       elem.style.borderRadius = "25px";
-//       elem.style.background = tag?.color;
+//       elem.style.background = tag.color;
 //       elem.style.color = "white";
 //       elem.style.fontWeight = "600";
 //       elem.style.fontSize = "14px";
 //       elem.style.userSelect = "none";
-//       elem.style.cursor = "pointer";
 //       elem.style.boxShadow = "0 4px 6px rgba(0,0,0,0.1)";
 //       elem.style.whiteSpace = "nowrap";
-//       elem.style.pointerEvents = 'none'; 
+//       elem.style.cursor = "grab";
+//       elem.style.pointerEvents = "none"; // Let events pass through to canvas
+
+//       // Calculate dimensions
+//       const tempDiv = document.createElement("div");
+//       tempDiv.style.position = "absolute";
+//       tempDiv.style.visibility = "hidden";
+//       tempDiv.style.whiteSpace = "nowrap";
+//       tempDiv.style.padding = "8px 16px";
+//       tempDiv.style.fontSize = "14px";
+//       tempDiv.style.fontWeight = "600";
+//       tempDiv.innerText = tag.text;
+//       document.body.appendChild(tempDiv);
       
-//       // Add touch action for mobile
-//       elem.style.touchAction = "none";
-      
+//       const w = Math.max(tempDiv.offsetWidth, 120) + 10;
+//       const h = Math.max(tempDiv.offsetHeight, 40) + 10;
+//       document.body.removeChild(tempDiv);
+
 //       scene.appendChild(elem);
 
-//       // Measure element dimensions
-//       const w = Math.max(elem.offsetWidth, 150);
-//       const h = Math.max(elem.offsetHeight, 60);
-      
-//       // Position tags randomly but spread out
+//       // Position tags randomly
 //       const x = Math.random() * (width - w * 1.5) + w * 0.75;
 //       const y = -Math.random() * height * 2 - i * 30;
 
 //       const body = Bodies.rectangle(x + w / 2, y, w, h, {
-//         restitution: 0.3,
+//         restitution: 0.4,
 //         friction: 0.1,
-//         frictionAir: 0.05,
-//         density: 0.002,
+//         frictionAir: 0.02,
+//         density: 0.001,
 //         chamfer: { radius: h / 2 },
 //         render: { visible: false },
-//         sleepThreshold: 60,
-//         slop: 0.05,
+//         label: `tag-${i}`,
 //       });
 
 //       World.add(engine.world, body);
@@ -530,54 +529,80 @@ export function InteractiveFallingTags() {
 //       return { elem, body, w, h };
 //     });
 
-//     // Handle mouse interaction
-//     const mouse = Mouse.create(render.canvas);
-    
-//     // Fix mobile touch handling
-//     if (mouse.element) {
-//       mouse.element.removeEventListener("touchmove", mouse.mousemove);
-//       mouse.element.removeEventListener("touchstart", mouse.mousedown);
-//       mouse.element.removeEventListener("touchend", mouse.mouseup);
-      
-//       mouse.element.addEventListener("touchmove", (e) => {
-//         e.preventDefault();
-//         mouse.mousemove(e);
-//       }, { passive: false });
-      
-//       mouse.element.addEventListener("touchstart", (e) => {
-//         e.preventDefault();
-//         mouse.mousedown(e);
-//         isDraggingRef.current = true;
-//       });
-      
-//       mouse.element.addEventListener("touchend", (e) => {
-//         e.preventDefault();
-//         mouse.mouseup(e);
-//         isDraggingRef.current = false;
-//       });
-//     }
+//     tagBodiesRef.current = tagBodies;
 
+//     // Setup mouse constraint for interaction
+//     const mouse = Mouse.create(render.canvas);
 //     const mouseConstraint = MouseConstraint.create(engine, {
 //       mouse: mouse,
 //       constraint: {
-//         stiffness: 0.1,
+//         stiffness: 0.2,
 //         damping: 0.1,
 //         render: { visible: false }
 //       }
 //     });
 
-//     // Prevent dragging when clicking on canvas background
-//     mouseConstraint.mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
-//     mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
-
+//     mouseConstraintRef.current = mouseConstraint;
+    
+//     // Make sure mouse constraint can interact with all bodies
+//     mouseConstraint.collisionFilter.mask = 0xFFFFFFFF;
+    
 //     World.add(engine.world, mouseConstraint);
 //     render.mouse = mouse;
 
-//     // Sync DOM with physics - optimized
+//     Events.on(mouseConstraint, "startdrag", () => {
+//       document.body.style.cursor = "grabbing";
+//     });
+
+//     Events.on(mouseConstraint, "enddrag", () => {
+//       document.body.style.cursor = "default";
+//     });
+
+
+//     // Handle mouse events on the canvas
+//     render.canvas.addEventListener("mousedown", () => {
+//       isDraggingRef.current = true;
+//     });
+
+//     render.canvas.addEventListener("mouseup", () => {
+//       isDraggingRef.current = false;
+//     });
+
+//     // Handle touch events
+//     let isDraggingTag = false;
+
+//     render.canvas.addEventListener("touchstart", (e) => {
+//       if (e.touches[0]) {
+//         const rect = render.canvas.getBoundingClientRect();
+//         mouse.absolute.x = e.touches[0].clientX - rect.left;
+//         mouse.absolute.y = e.touches[0].clientY - rect.top;
+//         mouse.button = 0;
+//         mouse.mousedown(null);
+//         isDraggingTag = true;
+//       }
+//     }, { passive: true });
+
+//     render.canvas.addEventListener("touchend", () => {
+//       isDraggingTag = false;
+//       isDraggingRef.current = false;
+//       mouse.button = -1;
+//       mouse.mouseup(null);
+//     }, { passive: true });
+
+//     render.canvas.addEventListener("touchmove", (e) => {
+//       if (isDraggingTag && e.touches[0]) {
+//         e.preventDefault();
+//         const rect = render.canvas.getBoundingClientRect();
+//         mouse.absolute.x = e.touches[0].clientX - rect.left;
+//         mouse.absolute.y = e.touches[0].clientY - rect.top;
+//       }
+//     }, { passive: false });
+
+//     // Update DOM positions
 //     const updateTags = () => {
 //       tagBodies.forEach(({ elem, body, w, h }) => {
-//         if (body.position.y > height + 100) {
-//           // Reset tag position if it falls too far
+//         // Reset if fallen too far
+//         if (body.position.y > height + 200) {
 //           Body.setPosition(body, {
 //             x: Math.random() * (width - w * 1.5) + w * 0.75,
 //             y: -50
@@ -586,12 +611,19 @@ export function InteractiveFallingTags() {
 //           Body.setAngularVelocity(body, 0);
 //         }
 
-//         elem.style.transform = `translate3d(${body.position.x - w / 2}px, ${
-//           body.position.y - h / 2
-//         }px, 0) rotate(${body.angle}rad)`;
-//         elem.style.transition = isDraggingRef.current ? 'none' : 'transform 0.1s linear';
+//         // Update element position
+//         elem.style.left = `${body.position.x - w / 2}px`;
+//         elem.style.top = `${body.position.y - h / 2}px`;
+//         elem.style.transform = `rotate(${body.angle}rad)`;
+        
+//         // Change cursor when dragging
+//         if (mouseConstraint.body === body) {
+//           elem.style.cursor = "grabbing";
+//         } else {
+//           elem.style.cursor = "grab";
+//         }
 //       });
-      
+
 //       frameIdRef.current = requestAnimationFrame(updateTags);
 //     };
 
@@ -609,15 +641,20 @@ export function InteractiveFallingTags() {
 //       render.canvas.width = newWidth;
 //       render.canvas.height = newHeight;
       
-//       // Update walls
-//       Body.setPosition(floor, { x: newWidth / 2, y: newHeight + wallThickness / 2 });
-//       Body.setPosition(leftWall, { x: -wallThickness / 2, y: newHeight / 2 });
-//       Body.setPosition(rightWall, { x: newWidth + wallThickness / 2, y: newHeight / 2 });
+//       // Update boundary positions
+//       boundaries.forEach((boundary, index) => {
+//         if (index === 0) { // floor
+//           Body.setPosition(boundary, { x: newWidth / 2, y: newHeight + wallThickness / 2 });
+//         } else if (index === 1) { // left wall
+//           Body.setPosition(boundary, { x: -wallThickness / 2, y: newHeight / 2 });
+//         } else if (index === 2) { // right wall
+//           Body.setPosition(boundary, { x: newWidth + wallThickness / 2, y: newHeight / 2 });
+//         }
+//       });
 //     };
 
 //     window.addEventListener('resize', handleResize);
 
-//     // Cleanup on unmount
 //     return () => {
 //       if (frameIdRef.current) {
 //         cancelAnimationFrame(frameIdRef.current);
@@ -632,6 +669,7 @@ export function InteractiveFallingTags() {
 //         render.canvas.parentNode.removeChild(render.canvas);
 //       }
       
+//       // Clean up DOM elements
 //       tagBodies.forEach(({ elem }) => {
 //         if (elem.parentNode) {
 //           elem.parentNode.removeChild(elem);
@@ -692,405 +730,11 @@ export function InteractiveFallingTags() {
 //         }}
 //       />
       
-//       <div style={{
-//         textAlign: "center",
-//         color: "rgba(255, 255, 255, 0.7)",
-//         marginTop: "20px",
-//         fontSize: "14px",
-//         fontFamily: "sans-serif",
-//         display: window.innerWidth < 768 ? "block" : "none"
-//       }}>
-//         👆 Drag tags around to interact
-//       </div>
 //     </div>
 //   );
 // };
 
 
-
-
-
-
-// import React, { useEffect, useRef } from "react";
-// import {
-//   Engine,
-//   Render,
-//   World,
-//   Bodies,
-//   Runner,
-//   Mouse,
-//   MouseConstraint,
-// } from "matter-js";
-
-
-// export function InteractiveFallingTags() {
-//   const sceneRef = useRef<HTMLDivElement | null>(null);
-//   const engineRef = useRef(Engine.create());
-
-//   const tags = [
-//     { text: "Internal Medicine", color: "#8B0000" },
-//     { text: "Oncology", color: "#6495ED" },
-//     { text: "Cardiology", color: "#228B22" },
-//     { text: "Neurology", color: "#FFD700" },
-//     { text: "Dermatology", color: "#FF69B4" },
-//     { text: "Psychiatry", color: "#FF8C00" },
-//     { text: "Pediatrics", color: "#20B2AA" },
-//     { text: "Surgery", color: "#DC143C" },
-//     { text: "Radiology", color: "#4B0082" },
-//     { text: "Pathology", color: "#2E8B57" },
-//     { text: "Anesthesiology", color: "#FF4500" },
-//     { text: "Emergency Medicine", color: "#1E90FF" },
-//     { text: "Family Medicine", color: "#2F4F4F" },
-//     { text: "Gastroenterology", color: "#6A5ACD" },
-//     { text: "Endocrinology", color: "#FF1493" },
-//     { text: "Mental Health", color: "#8B0000" },
-//     { text: "Community Health Worker", color: "#8B0000" },
-//   ];
-
-//   useEffect(() => {
-//     const engine = engineRef.current;
-//     const scene = sceneRef.current;
-//     if (!scene) return;
-
-//     const width = scene.offsetWidth;
-//     const height = scene.offsetHeight;
-
-//     const render = Render.create({
-//       element: scene,
-//       engine,
-//       options: {
-//         width,
-//         height,
-//         wireframes: false,
-//         background: "transparent",
-//       },
-//     });
-
-//     render.canvas.style.position = "absolute";
-//     render.canvas.style.top = "0";
-//     render.canvas.style.left = "0";
-//     render.canvas.style.zIndex = "0";
-//     render.canvas.style.pointerEvents = "auto"; 
-
-//     const runner = Runner.create();
-//     Runner.run(runner, engine);
-//     Render.run(render);
-
-//     // World boundaries
-//     const floor = Bodies.rectangle(width / 2, height + 20, width, 40, {
-//       isStatic: true,
-//     });
-//     const leftWall = Bodies.rectangle(-20, height / 2, 40, height, {
-//       isStatic: true,
-//     });
-//     const rightWall = Bodies.rectangle(width + 20, height / 2, 40, height, {
-//       isStatic: true,
-//     });
-//     World.add(engine.world, [floor, leftWall, rightWall]);
-
-//     // Create tags as DOM + physics bodies
-//     const tagBodies = tags.map((tag, i) => {
-//       const elem = document.createElement("div");
-//       elem.innerText = tag.text;
-//       elem.style.position = "absolute";
-//       elem.style.zIndex = "1"; // فوق الكانفس
-//       elem.style.padding = "6px 12px";
-//       elem.style.borderRadius = "20px";
-//       elem.style.background = tag.color;
-//       elem.style.color = "white";
-//       elem.style.fontWeight = "bold";
-//       elem.style.userSelect = "none";
-//       elem.style.cursor = "grab";
-//       scene.appendChild(elem);
-
-//       const w = elem.offsetWidth || 100;
-//       const h = elem.offsetHeight || 40;
-//       const x = Math.random() * (width - w);
-//       const y = -i * 80;
-
-//       const body = Bodies.rectangle(x + w / 2, y, w, h, {
-//         restitution: 0.6,
-//         friction: 0.1,
-//         frictionAir: 0.01,
-//         density: 0.001,
-//         chamfer: { radius: h / 2 },
-//       });
-
-//       World.add(engine.world, body);
-
-//       return { elem, body, w, h };
-//     });
-
-//     // Mouse + touch drag
-//     const mouse = Mouse.create(render.canvas);
-//     mouse.element.removeEventListener("touchmove", mouse.mousemove);
-//     mouse.element.addEventListener("touchmove", mouse.mousemove, {
-//       passive: false,
-//     });
-
-//     const mouseConstraint = MouseConstraint.create(engine, {
-//       mouse,
-//       constraint: { stiffness: 0.2, render: { visible: false } },
-//     });
-//     World.add(engine.world, mouseConstraint);
-//     render.mouse = mouse;
-
-//     // Sync DOM with physics
-//     const update = () => {
-//       tagBodies.forEach(({ elem, body, w, h }) => {
-//         elem.style.transform = `translate(${body.position.x - w / 2}px, ${
-//           body.position.y - h / 2
-//         }px) rotate(${body.angle}rad)`;
-//       });
-//       requestAnimationFrame(update);
-//     };
-//     update();
-
-//     // Cleanup on unmount
-//     return () => {
-//       Render.stop(render);
-//       Runner.stop(runner);
-//       World.clear(engine.world, false);
-//       Engine.clear(engine);
-//       render.canvas.remove();
-//       render.textures = {};
-//       scene.innerHTML = "";
-//     };
-//   }, []);
-
-//   return (
-//     <div style={{ background: "#0f144c", padding: "50px 0" }}>
-//       <h1
-//         style={{
-//           color: "#fff",
-//           fontSize: "2.5rem",
-//           textAlign: "center",
-//           fontFamily: "Times New Roman",
-//           marginBottom: "30px",
-//         }}
-//       >
-//         Our{" "}
-//         <span
-//           style={{
-//             background: "linear-gradient(90deg, #096A9D, #00C9FF)",
-//             WebkitBackgroundClip: "text",
-//             WebkitTextFillColor: "transparent",
-//             fontWeight: "bold",
-//           }}
-//         >
-//           Services
-//         </span>{" "}
-//         include
-//       </h1>
-
-//       {/* جزء الكومبوننت بس (مش هيسد الصفحة) */}
-//       <div
-//         ref={sceneRef}
-//         className="relative w-full overflow-hidden"
-//         style={{
-//           background: "#0f144c",
-//           height: "500px", 
-//         }}
-//       />
-//     </div>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useRef } from "react";
-// import {
-//   Engine,
-//   Render,
-//   World,
-//   Bodies,
-//   Runner,
-//   Mouse,
-//   MouseConstraint,
-// } from "matter-js";
-
-
-// export function InteractiveFallingTags() {
-//   const sceneRef = useRef(null);
-//   const engineRef = useRef(Engine.create());
-
-//   const tags = [
-//     { text: "Internal Medicine", color: "#8B0000" },
-//     { text: "Oncology", color: "#6495ED" },
-//     { text: "Cardiology", color: "#228B22" },
-//     { text: "Neurology", color: "#FFD700" },
-//     { text: "Dermatology", color: "#FF69B4" },
-//     { text: "Psychiatry", color: "#FF8C00" },
-//     { text: "Pediatrics", color: "#20B2AA" },
-//     { text: "Surgery", color: "#DC143C" },
-//     { text: "Radiology", color: "#4B0082" },
-//     { text: "Pathology", color: "#2E8B57" },
-//     { text: "Anesthesiology", color: "#FF4500" },
-//     { text: "Emergency Medicine", color: "#1E90FF" },
-//     { text: "Family Medicine", color: "#2F4F4F" },
-//     { text: "Gastroenterology", color: "#6A5ACD" },
-//     { text: "Endocrinology", color: "#FF1493" },
-//     { text: "Mental Health", color: "#8B0000" },
-//     { text: "Community Health Worker", color: "#8B0000" },
-
-//   ];
-
-//   useEffect(() => {
-//     const engine = engineRef.current;
-//     const scene = sceneRef.current;
-//     if (!scene) return;
-
-//     const width = scene.offsetWidth;
-//     const height = scene.offsetHeight;
-
-//     // Matter.js renderer
-//     const render = Render.create({
-//       element: scene,
-//       engine,
-//       options: {
-//         width,
-//         height,
-//         wireframes: false,
-//         background: "transparent",
-//       },
-//     });
-
-//     // Put canvas behind DOM tags
-//     render.canvas.style.position = "absolute";
-//     render.canvas.style.top = "0";
-//     render.canvas.style.left = "0";
-//     render.canvas.style.zIndex = "0";
-
-//     // Start engine + renderer
-//     const runner = Runner.create();
-//     Runner.run(runner, engine);
-//     Render.run(render);
-
-//     // World boundaries
-//     const floor = Bodies.rectangle(width / 2, height + 20, width, 40, {
-//       isStatic: true,
-//     });
-//     const leftWall = Bodies.rectangle(-20, height / 2, 40, height, {
-//       isStatic: true,
-//     });
-//     const rightWall = Bodies.rectangle(width + 20, height / 2, 40, height, {
-//       isStatic: true,
-//     });
-//     World.add(engine.world, [floor, leftWall, rightWall]);
-
-//     // Create tags as DOM + physics bodies
-//     const tagBodies = tags.map((tag, i) => {
-//       const elem = document.createElement("div");
-//       elem.innerText = tag.text;
-//       elem.style.position = "absolute";
-//       elem.style.zIndex = "1"; // ensure above canvas
-//       elem.style.padding = "6px 12px";
-//       elem.style.borderRadius = "20px";
-//       elem.style.background = tag.color;
-//       elem.style.color = "white";
-//       elem.style.fontWeight = "bold";
-//       elem.style.userSelect = "none";
-//       elem.style.pointerEvents = "none"; 
-//       // elem.style.cursor = "pointer";
-
-
-//       scene.appendChild(elem);
-
-//       const w = elem.offsetWidth || 100;
-//       const h = elem.offsetHeight || 40;
-//       const x = Math.random() * (width - w);
-//       const y = -i * 80; 
-
-//       const body = Bodies.rectangle(x + w / 2, y, w, h, {
-//         restitution: 0.6,
-//         friction: 0.1,
-//         frictionAir: 0.01,
-//         density: 0.001,
-//         chamfer: { radius: h / 2 },
-//       });
-
-//       World.add(engine.world, body);
-
-//       return { elem, body, w, h };
-//     });
-
-//     // Enable drag with mouse
-//     const mouse = Mouse.create(render.canvas);
-//     const mouseConstraint = MouseConstraint.create(engine, {
-//       mouse,
-//       constraint: { stiffness: 0.2, render: { visible: false } },
-//     });
-//     World.add(engine.world, mouseConstraint);
-//     render.mouse = mouse;
-
-//     // Sync DOM with physics
-//     const update = () => {
-//       tagBodies.forEach(({ elem, body, w, h }) => {
-//         elem.style.transform = `translate(${body.position.x - w / 2}px, ${
-//           body.position.y - h / 2
-//         }px) rotate(${body.angle}rad)`;
-//       });
-//       requestAnimationFrame(update);
-//     };
-//     update();
-
-//     // Cleanup on unmount
-//     return () => {
-//       Render.stop(render);
-//       Runner.stop(runner);
-//       World.clear(engine.world, false);
-//       Engine.clear(engine);
-//       render.canvas.remove();
-//       render.textures = {};
-//       scene.innerHTML = "";
-//     };
-//   }, []);
-
-//   return (
-//     <>
-//     <h1 
-//       style={{ 
-//         color: "#fff", 
-//         fontSize: "4rem",
-//         textAlign: "center",
-//         fontFamily: "Times New Roman",
-//       }}
-//     >
-//       Our <span
-//         style={{
-//           background: "linear-gradient(90deg, #096A9D, #00C9FF)",
-//           WebkitBackgroundClip: "text",
-//           WebkitTextFillColor: "transparent",
-//           fontWeight: "bold",
-//           fontSize: "4rem",
-//           margin: "0 10px",
-//         }}
-//       >
-//         Services
-//       </span> include
-//     </h1>
-//     <div
-//       ref={sceneRef}
-//       className="relative w-full h-screen overflow-hidden"
-//       style={{ background: "#0f144c" }}
-//     />
-//     </>
-//   );
-// };
 
 
 

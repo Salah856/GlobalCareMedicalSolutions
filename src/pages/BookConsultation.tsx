@@ -78,7 +78,7 @@ const Container = styled.div`
 `;
 
 const HeroTitle = styled(motion.h1)`
-  font-size: 3.5rem;
+  font-size: 2.7rem;
   font-weight: 800;
   background: linear-gradient(90deg, ${colors.primary}, ${colors.secondary});
   -webkit-background-clip: text;
@@ -505,7 +505,8 @@ const BookConsultationPage = () => {
   return (
     <GlobalStyles>
       <PageContainer>
-        <HeroSection
+
+        {/* <HeroSection
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -524,7 +525,101 @@ const BookConsultationPage = () => {
               </HeroSubtitle>
             </motion.div>
           </Container>
-        </HeroSection>
+        </HeroSection> */}
+
+        <HeroSection
+  initial={{ opacity: 0, y: -40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+>
+  <Container>
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+    >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '40px',
+        flexWrap: 'wrap'
+      }}>
+        <div style={{ flex: 1, minWidth: '250px' }}>
+          <HeroTitle variants={fadeInUp}>
+            Contact Us
+          </HeroTitle>
+          <HeroSubtitle variants={fadeInUp}>
+            We offer services for medical billing and practice management that can enhance your revenue.
+          </HeroSubtitle>
+        </div>
+
+        <motion.div
+          variants={fadeInUp}
+          style={{ flex: 1, minWidth: '300px' }}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div
+            className="text-2xl lg:text-3xl font-semibold"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: {
+                transition: { staggerChildren: 0.04 }
+              }
+            }}
+          >
+            <HeroTitle>
+              Global Care Medical Solutions
+            </HeroTitle>
+            {"Your Prescription for Seamless Growth".split(" ").map((word, wordIndex) => (
+              <span key={wordIndex} className="inline-block mr-2 last:mr-0">
+                {word.split("").map((char, charIndex) => (
+                  <motion.span
+                    key={`${wordIndex}-${charIndex}`}
+                    className="inline-block"
+                    style={{
+                      background: "linear-gradient(135deg, #039AFF, #6803FF)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontWeight: 'bold',
+                    }}
+                    variants={{
+                      hidden: {
+                        opacity: 0,
+                        x: Math.random() * 200 - 100,
+                        y: Math.random() * 200 - 100,
+                        rotate: Math.random() * 180 - 90,
+                      },
+                      visible: {
+                        opacity: 1,
+                        x: 0,
+                        y: 0,
+                        rotate: 0,
+                        transition: { 
+                          type: "spring", 
+                          stiffness: 120, 
+                          damping: 15,
+                          delay: wordIndex * 0.05 + charIndex * 0.03
+                        }
+                      }
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+                {wordIndex < "Your Prescription for Seamless Growth".split(" ").length - 1 ? "\u00A0" : ""}
+              </span>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.div>
+  </Container>
+</HeroSection>
 
         <Container>
           <ContentGrid>

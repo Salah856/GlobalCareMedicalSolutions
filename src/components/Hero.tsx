@@ -27,7 +27,6 @@ export function Hero() {
   const sentence = "Your Prescription for Seamless Growth";
   const letters = sentence.split("");
 
-  // Color variables
   const colors = {
     primary: '#039AFF',     // Blue color
     secondary: '#031CFF',   // Darker blue
@@ -37,7 +36,6 @@ export function Hero() {
 
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 overflow-hidden">
         <img 
           src="https://thespark.pro/wp-content/uploads/2024/09/main.jpg" 
@@ -61,7 +59,6 @@ export function Hero() {
         ></div>
       </div>
 
-      {/* Animated Gradient Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-32 w-80 h-80 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"
           style={{
@@ -77,7 +74,6 @@ export function Hero() {
           }}></div>
       </div>
 
-      {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `linear-gradient(${colors.primary}20 1px, transparent 1px),
@@ -87,14 +83,12 @@ export function Hero() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Text Content Column */}
           <div ref={textRef} className="space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 transition-all duration-1000 ease-out opacity-0 translate-y-8 animate-enter:opacity-100 animate-enter:translate-y-0"
               style={{
                 background: `linear-gradient(135deg, ${colors.primary}15, ${colors.accent}15)`,
                 border: `1px solid ${colors.primary}30`,
               }}>
-              {/* Empty badge - keeping structure but no content */}
             </div>
 
             <div className="space-y-6">
@@ -117,7 +111,7 @@ export function Hero() {
 
               <h4 className="text-lg transition-all duration-1000 ease-out delay-500 opacity-0 translate-y-8 animate-enter:opacity-100 animate-enter:translate-y-0"
                 style={{ 
-                  color: 'rgba(255, 255, 255, 0.9)', // White with transparency
+                  color: 'rgba(255, 255, 255, 0.9)',
                   marginBottom: '3rem',
                   textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
                 }}>
@@ -135,7 +129,6 @@ export function Hero() {
                   }
                 }}
               >
-                {/* Wrap words instead of individual letters */}
                 {sentence.split(" ").map((word, wordIndex) => (
                   <span key={wordIndex} className="inline-block mr-2 last:mr-0">
                     {word.split("").map((char, charIndex) => (
