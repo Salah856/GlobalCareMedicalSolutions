@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Variants } from 'framer-motion';
 
 // Animation variants with proper types
@@ -112,6 +112,19 @@ const specialtyIcons = [
 export function Specialities() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    setIsDark(darkMode);
+    
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   const specialties = [
     "Family Practice",
@@ -136,7 +149,7 @@ export function Specialities() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-20 overflow-hidden">
+    <div className={`min-h-screen pt-20 overflow-hidden ${isDark ? 'bg-slate-900' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Animated Header */}
         <motion.div 
@@ -159,7 +172,7 @@ export function Specialities() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-600'}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -194,7 +207,11 @@ export function Specialities() {
               
               {/* Card */}
               <motion.div
-                className="relative bg-gradient-to-br from-white to-gray-50 p-8 rounded-xl border border-gray-100 shadow-lg backdrop-blur-sm"
+                className={`relative p-8 rounded-xl border shadow-lg backdrop-blur-sm ${
+                  isDark 
+                    ? 'bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700' 
+                    : 'bg-gradient-to-br from-white to-gray-50 border-gray-100'
+                }`}
                 variants={cardVariants}
                 style={{ willChange: 'transform' }}
               >
@@ -216,7 +233,7 @@ export function Specialities() {
                 
                 {/* Title with Underline Animation */}
                 <div className="relative">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                  <h3 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-800'}`}>
                     {specialty}
                   </h3>
                   <motion.div 
@@ -229,7 +246,7 @@ export function Specialities() {
                 
                 {/* Description with fade-in on hover */}
                 <motion.p 
-                  className="text-gray-600 text-sm mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className={`text-sm mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
                   initial={{ y: 10 }}
                   whileHover={{ y: 0 }}
                 >
@@ -250,7 +267,11 @@ export function Specialities() {
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100"
+              className={`text-center p-6 rounded-xl border ${
+                isDark 
+                  ? 'bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700' 
+                  : 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-100'
+              }`}
               whileHover={{ 
                 scale: 1.05,
                 boxShadow: "0px 15px 30px rgba(3, 154, 255, 0.15)"
@@ -276,7 +297,7 @@ export function Specialities() {
               >
                 {stat.number}
               </motion.div>
-              <div className="text-gray-700 font-medium">{stat.label}</div>
+              <div className={`font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
