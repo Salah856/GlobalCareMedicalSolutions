@@ -145,7 +145,7 @@ export function WhyChooseUs() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 pt-20 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 dark:from-slate-900 dark:to-slate-800 pt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Animated Header */}
         <motion.div 
@@ -155,7 +155,7 @@ export function WhyChooseUs() {
           variants={titleVariants}
         >
           <motion.h1 
-            className="text-5xl lg:text-6xl font-bold mb-6"
+            className="text-5xl lg:text-6xl font-bold mb-6 dark:text-white"
             style={{
               background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
               WebkitBackgroundClip: 'text',
@@ -168,7 +168,7 @@ export function WhyChooseUs() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
             variants={textVariants}
           >
             Discover why healthcare providers trust GCMS for their medical billing needs.
@@ -202,7 +202,7 @@ export function WhyChooseUs() {
               
               {/* Feature Card */}
               <motion.div
-                className="relative bg-white p-8 rounded-2xl shadow-xl border border-gray-100 backdrop-blur-sm"
+                className="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 backdrop-blur-sm"
                 variants={cardVariants}
                 style={{ willChange: 'transform' }}
               >
@@ -231,7 +231,7 @@ export function WhyChooseUs() {
 
                 {/* Content */}
                 <motion.h3 
-                  className="text-xl font-bold text-gray-800 mb-4 text-center"
+                  className="text-xl font-bold text-gray-800 dark:text-white mb-4 text-center"
                   whileHover={{ color: feature.color }}
                   transition={{ duration: 0.3 }}
                 >
@@ -239,7 +239,7 @@ export function WhyChooseUs() {
                 </motion.h3>
                 
                 <motion.p 
-                  className="text-gray-600 text-center leading-relaxed"
+                  className="text-gray-600 dark:text-gray-300 text-center leading-relaxed"
                   animate={{ opacity: [0.9, 1, 0.9] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -322,7 +322,7 @@ export function WhyChooseUs() {
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center"
+              className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 text-center"
               whileHover={{ 
                 scale: 1.05,
                 boxShadow: `0px 15px 40px ${colors.primary}20`,
@@ -356,7 +356,7 @@ export function WhyChooseUs() {
               >
                 {stat.number}
               </motion.div>
-              <div className="text-gray-600 font-medium">{stat.label}</div>
+              <div className="text-gray-600 dark:text-gray-300 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -423,7 +423,7 @@ export function WhyChooseUs() {
           </motion.button>
           
           <motion.p 
-            className="text-gray-500 mt-4"
+            className="text-gray-500 dark:text-gray-400 mt-4"
             animate={{ opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2, repeat: Infinity }}
           >

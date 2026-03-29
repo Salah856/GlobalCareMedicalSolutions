@@ -127,7 +127,6 @@ export const ContactUsForm: React.FC<any> = ({
         >
           <h3 className={isDark ? 'dark-text' : ''}>Thank You!</h3>
           <p className={isDark ? 'dark-text' : ''}>Your message has been sent successfully. We'll contact you soon.</p>
-          <p className={isDark ? 'dark-text' : ''}><strong>Test Email:</strong> salah.othman.elhossiny@gmail.com</p>
         </motion.div>
       ) : (
         <motion.form 

@@ -153,7 +153,7 @@ export function Blog() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 pt-20 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50 dark:from-slate-900 dark:to-slate-800 pt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Animated Header */}
         <motion.div 
@@ -163,7 +163,7 @@ export function Blog() {
           variants={titleVariants}
         >
           <motion.h1 
-            className="text-5xl lg:text-6xl font-bold mb-6"
+            className="text-5xl lg:text-6xl font-bold mb-6 dark:text-white"
             style={{
               background: `linear-gradient(90deg, ${colors.primary}, ${colors.accent})`,
               WebkitBackgroundClip: 'text',
@@ -175,7 +175,7 @@ export function Blog() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto mb-8"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8"
             variants={textVariants}
           >
             Latest insights and updates from the world of medical billing and healthcare technology.
@@ -195,7 +195,7 @@ export function Blog() {
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
                   activeCategory === category
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-600'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -227,7 +227,7 @@ export function Blog() {
               animate="visible"
             >
               {/* Card with Glass Morphism Effect */}
-              <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-500">
+              <div className="relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-500 border border-gray-100 dark:border-slate-700">
                 {/* Featured Image with Overlay */}
                 <div className="relative h-48 overflow-hidden">
                   <motion.div
@@ -255,14 +255,14 @@ export function Blog() {
                 {/* Content */}
                 <div className="p-6">
                   {/* Date and Read Time */}
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
                     <motion.time 
                       className="flex items-center gap-1"
                       whileHover={{ scale: 1.05 }}
                     >
                       📅 {formatDate(post.date)}
                     </motion.time>
-                    <span className="text-gray-300">•</span>
+                    <span className="text-gray-300 dark:text-slate-600">•</span>
                     <span className="flex items-center gap-1">
                       ⏱️ {post.readTime}
                     </span>
@@ -270,7 +270,7 @@ export function Blog() {
 
                   {/* Title */}
                   <motion.h2 
-                    className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300"
+                    className="text-xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
                     whileHover={{ x: 5 }}
                   >
                     {post.title}
@@ -278,7 +278,7 @@ export function Blog() {
 
                   {/* Excerpt */}
                   <motion.p 
-                    className="text-gray-600 mb-6 line-clamp-2"
+                    className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2"
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 4, repeat: Infinity }}
                   >
@@ -288,7 +288,7 @@ export function Blog() {
                   {/* Read More Button */}
                   <motion.div className="flex items-center justify-between">
                     <motion.button
-                      className="flex items-center gap-2 text-blue-600 font-semibold group"
+                      className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold group"
                       variants={buttonVariants}
                       whileHover="hover"
                       whileTap="tap"
@@ -304,7 +304,7 @@ export function Blog() {
 
                     {/* Like Button */}
                     <motion.button
-                      className="p-2 rounded-full hover:bg-gray-100"
+                      className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
                       whileHover={{ scale: 1.2, rotate: 15 }}
                       whileTap={{ scale: 0.9 }}
                     >
@@ -331,7 +331,7 @@ export function Blog() {
           transition={{ delay: 1 }}
         >
           <motion.button
-            className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden group"
+            className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden group dark:shadow-purple-900/30"
             variants={buttonVariants}
             whileHover="hover"
             whileTap="tap"

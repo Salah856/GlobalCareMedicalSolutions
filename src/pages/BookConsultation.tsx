@@ -50,6 +50,10 @@ const PageContainer = styled.div`
   min-height: 100vh;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   overflow: hidden;
+  
+  .dark & {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
 `;
 
 const HeroSection = styled(motion.section)`
@@ -57,6 +61,10 @@ const HeroSection = styled(motion.section)`
   padding: 100px 0 80px;
   position: relative;
   overflow: hidden;
+  
+  .dark & {
+    background: linear-gradient(135deg, ${colors.primary}10 0%, ${colors.accent}10 100%);
+  }
   
   &::before {
     content: '';
@@ -86,6 +94,10 @@ const HeroTitle = styled(motion.h1)`
   background-clip: text;
   margin-bottom: 20px;
   
+  .dark & {
+    -webkit-text-fill-color: transparent;
+  }
+  
   @media (max-width: 768px) {
     font-size: 2.5rem;
   }
@@ -96,6 +108,10 @@ const HeroSubtitle = styled(motion.p)`
   color: #4b5563;
   max-width: 600px;
   line-height: 1.6;
+  
+  .dark & {
+    color: #94a3b8;
+  }
 `;
 
 const ContentGrid = styled.div`
@@ -116,6 +132,11 @@ const SidebarCard = styled(motion.div)`
   padding: 40px;
   box-shadow: 0 10px 40px rgba(3, 154, 255, 0.1);
   border: 1px solid rgba(3, 154, 255, 0.1);
+  
+  .dark & {
+    background: #1e293b;
+    border-color: rgba(3, 154, 255, 0.2);
+  }
 `;
 
 const InfoSection = styled.div`
@@ -134,12 +155,20 @@ const SectionTitle = styled.h3`
   display: flex;
   align-items: center;
   gap: 10px;
+  
+  .dark & {
+    color: ${colors.primary};
+  }
 `;
 
 const InfoText = styled.p`
   color: #4b5563;
   line-height: 1.6;
   margin: 0;
+  
+  .dark & {
+    color: #94a3b8;
+  }
 `;
 
 const MapContainerStyled = styled.div`
@@ -147,6 +176,10 @@ const MapContainerStyled = styled.div`
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  
+  .dark & {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const ActionButtons = styled.div`
@@ -183,6 +216,11 @@ const FormSection = styled(motion.div)`
   padding: 40px;
   box-shadow: 0 10px 40px rgba(3, 154, 255, 0.1);
   border: 1px solid rgba(3, 154, 255, 0.1);
+  
+  .dark & {
+    background: #1e293b;
+    border-color: rgba(3, 154, 255, 0.2);
+  }
 `;
 
 const FormTitle = styled.h2`
@@ -193,6 +231,10 @@ const FormTitle = styled.h2`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 30px;
+  
+  .dark & {
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const ConsultationNote = styled.div`
@@ -202,6 +244,10 @@ const ConsultationNote = styled.div`
   border-radius: 8px;
   margin-bottom: 30px;
   
+  .dark & {
+    background: linear-gradient(135deg, ${colors.primary}05, ${colors.accent}05);
+  }
+  
   p {
     color: #374151;
     line-height: 1.6;
@@ -210,6 +256,14 @@ const ConsultationNote = styled.div`
     &:first-child {
       color: ${colors.secondary};
       font-weight: 600;
+    }
+    
+    .dark & {
+      color: #94a3b8;
+    }
+    
+    .dark &:first-child {
+      color: ${colors.primary};
     }
   }
 `;
@@ -240,6 +294,10 @@ const Label = styled.label`
   font-weight: 500;
   color: #374151;
   font-size: 0.95rem;
+  
+  .dark & {
+    color: #e2e8f0;
+  }
 `;
 
 const Input = styled.input`
@@ -341,6 +399,10 @@ const ConsentCheckbox = styled.div`
     cursor: pointer;
     color: #4b5563;
     line-height: 1.5;
+    
+    .dark & {
+      color: #94a3b8;
+    }
   }
   
   input[type="checkbox"] {
@@ -386,6 +448,11 @@ const SuccessMessage = styled(motion.div)`
   padding: 40px;
   text-align: center;
   
+  .dark & {
+    background: linear-gradient(135deg, #10B98105, ${colors.primary}05);
+    border-color: #10B98120;
+  }
+  
   h3 {
     color: #10B981;
     font-size: 2rem;
@@ -396,6 +463,10 @@ const SuccessMessage = styled(motion.div)`
     color: #374151;
     line-height: 1.6;
     margin: 10px 0;
+    
+    .dark & {
+      color: #94a3b8;
+    }
   }
 `;
 
@@ -715,7 +786,6 @@ const BookConsultationPage = () => {
                     <h3>🎉 Thank You!</h3>
                     <p>Your message has been sent successfully.</p>
                     <p>We'll contact you within 24 hours.</p>
-                    <p><strong>Test Email Sent to:</strong> salah.othman.elhossiny@gmail.com</p>
                   </SuccessMessage>
                 ) : (
                   <motion.div
