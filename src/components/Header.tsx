@@ -3,6 +3,8 @@ import { Menu, X, ChevronDown, ChevronUp, Moon, Sun } from 'lucide-react';
 import { Button } from './ui/button';
 import GCMS_Logo from '../assets/GCMS_Logo.jpeg';
 import GCMS_Logo_without_bg from "../assets/GCMS_Logo_without_Background.png"; 
+import NEW_GCMS_LOGO_WITHOUT_BG from "../assets/GCMS_LOGO_WITHOUT_BG.png";
+
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -106,13 +108,13 @@ export function Header() {
         <div className="flex justify-between items-center h-22">
           <div className="flex-shrink-0">
             <img 
-              src={GCMS_Logo_without_bg}
+              src={NEW_GCMS_LOGO_WITHOUT_BG}
               alt="GCMS Logo" 
               className="h-18 w-auto"
               onClick={() => window.location.href = '/'}
               style={{
                 cursor: 'pointer',
-                width: '12rem',
+                width: '8rem',
               }}
             />
           </div>

@@ -1,10 +1,8 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Variants } from 'framer-motion';
 
-// Animation variants with proper types
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -73,7 +71,6 @@ const colors = {
   accent2: '#EB2626',
 };
 
-
 const textVariants = {
   hidden: { opacity: 0, x: -20 },
   visible: {
@@ -100,8 +97,12 @@ const categories = ["All", "Billing", "Technology", "Compliance", "Best Practice
 
 export function Blog() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const headerRef = useRef(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const blogPosts = [
     {
@@ -157,9 +158,10 @@ export function Blog() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Animated Header */}
         <motion.div 
+          ref={headerRef}
           className="text-center mb-12"
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate={isMounted ? "visible" : "hidden"}
           variants={titleVariants}
         >
           <motion.h1 
@@ -186,7 +188,7 @@ export function Blog() {
             className="flex flex-wrap justify-center gap-3 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.2 }}
           >
             {categories.map((category) => (
               <motion.button
@@ -209,13 +211,12 @@ export function Blog() {
           </motion.div>
         </motion.div>
 
-        {/* Blog Posts Grid */}
+        {/* Blog Posts Grid - Fixed to show immediately */}
         <motion.div 
-          ref={ref}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          animate="visible"
         >
           {filteredPosts.map((post, index) => (
             <motion.article
@@ -223,8 +224,6 @@ export function Blog() {
               className="group cursor-pointer"
               variants={cardVariants}
               whileHover="hover"
-              initial="hidden"
-              animate="visible"
             >
               {/* Card with Glass Morphism Effect */}
               <div className="relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-500 border border-gray-100 dark:border-slate-700">
@@ -277,13 +276,9 @@ export function Blog() {
                   </motion.h2>
 
                   {/* Excerpt */}
-                  <motion.p 
-                    className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2"
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  >
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2">
                     {post.excerpt}
-                  </motion.p>
+                  </p>
 
                   {/* Read More Button */}
                   <motion.div className="flex items-center justify-between">
@@ -328,7 +323,7 @@ export function Blog() {
           className="text-center mt-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.5 }}
         >
           <motion.button
             className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg relative overflow-hidden group dark:shadow-purple-900/30"
@@ -354,47 +349,8 @@ export function Blog() {
             </span>
           </motion.button>
         </motion.div>
-
-        {/* <motion.div 
-          className="mt-20 p-8 rounded-2xl bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <div className="max-w-2xl mx-auto text-center">
-            <motion.h3 
-              className="text-2xl font-bold text-gray-800 mb-3"
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              📬 Stay Updated
-            </motion.h3>
-            <p className="text-gray-600 mb-6">
-              Subscribe to our newsletter for the latest insights in medical billing
-            </p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.4 }}
-            >
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <motion.button
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Subscribe
-              </motion.button>
-            </motion.div>
-          </div>
-        </motion.div> */}
       </div>
     </div>
   );
 };
+
