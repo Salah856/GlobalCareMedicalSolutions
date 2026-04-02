@@ -133,8 +133,7 @@
     }
     </script>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJG03Q4D6"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJG03Q4D6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -147,7 +146,29 @@
         page_title: document.title,
         page_location: window.location.href
       });
+    </script> -->
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  
+  // CRITICAL: Set consent defaults BEFORE the script loads
+  gtag('consent', 'default', {
+    'ad_storage': 'granted',
+    'analytics_storage': 'granted',
+    'functionality_storage': 'granted',
+    'personalization_storage': 'granted',
+    'security_storage': 'granted',
+    'wait_for_update': 500
+  });
+  
+  gtag('js', new Date());
+  gtag('config', 'G-1HJG03Q4D6', {
+    page_title: document.title,
+    page_location: window.location.href,
+    send_page_view: true
+  });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1HJG03Q4D6"></script>
   </head>
   <body>
     <div id="root"></div>
