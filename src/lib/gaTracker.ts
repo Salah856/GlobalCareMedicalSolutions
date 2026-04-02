@@ -8,7 +8,11 @@ export function usePageTracking() {
 
   useEffect(() => {
     if (typeof (window as any)?.gtag === "function") {
-     (window as any).gtag?.("config", "G-2NP2SCH1XT", {
+     (window as any).gtag?.(
+      "config", 
+      "G-1HJG03Q4D6",
+      // "G-2NP2SCH1XT", 
+      {
         page_path: location.pathname + location.search,
      });
     };
